@@ -13,8 +13,8 @@ var LoginForm = React.createClass({
 	mixins : [Navigation, React.addons.LinkedStateMixin],
 	getInitialState: function() {
 		return {
-			email : 'joe@example.com',
-			password : 'password1' 
+			email : 'test@test.com',
+			password : 'qwer1234' 
 		};
 	},
 	login : function(){
@@ -42,7 +42,7 @@ var RegisterForm = React.createClass({
 	},
 	regist : function(){
 		http.post('/api/users', this.state)
-			.then(() => this.transitionTo('users'))
+			.then(() => this.transitionTo('/'))
 	},
 	render : function(){
 		return <form className="login-form">

@@ -82,6 +82,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './src/index.html',
             production: false,
+            inject: false,
         }),
         new webpack.ProvidePlugin({
             $: "jquery",

@@ -9,24 +9,35 @@ var { auth } = require('utils/auth');
 var menu = React.createClass({
 	mixins : [Navigation],
 	logOut : function(){
-		auth.logout(()=>this.transitionTo('login'));
+		auth.logout(()=>{
+			this.props.onLogout();
+		});
 	},
 	render: function() {
-		var projectId = this.props.projectId;		
-		return <Navbar brand={<a href="#">task-tracker</a>}  inverse toggleNavKey={0}>
+		if (this.props.user){
+			return <Navbar brand={<a href="#/">menu</a>}  inverse toggleNavKey={0}>
 				<CollapsibleNav>
 		    	<Nav navbar left eventKey={0}> 
-		      		{/*<NavItem eventKey={2} href={this.makeHref('projects', this.props.params)}>projects</NavItem>
-		      		<NavItem eventKey={3} href={this.makeHref('users', this.props.params)}>users</NavItem>*/}		    	
 		    		
-		    		{projectId && <NavItem eventKey={2} href={this.makeHref('tasks', { projectId : projectId })}>tasks</NavItem>}
-		      		{projectId && <NavItem eventKey={3} href={this.makeHref('add-tasks', { projectId : projectId })}>add task</NavItem>}
+		    		<NavItem eventKey={3} href={this.makeHref('add-project')}>start project</NavItem>
 				</Nav>
 		    	<Nav navbar right>
 		    		<NavItem onClick={this.logOut} eventKey={4} >log out</NavItem>
 		    	</Nav>
 		    	</CollapsibleNav>
+		  	</Navbar>			
+		} else {
+			return <Navbar brand={<a href="#/">menu</a>}  inverse toggleNavKey={0}>
+				<CollapsibleNav>
+		    	<Nav navbar left eventKey={0}> 		    		
+		    		<NavItem eventKey={3} href={this.makeHref('loginAsSupplire')}>login as supplire</NavItem>
+		    		<NavItem eventKey={3} href={this.makeHref('login')}>login as provider</NavItem>
+		    		<NavItem eventKey={3} href={this.makeHref('about')}>about projet</NavItem>
+				</Nav>
+		    	</CollapsibleNav>
 		  	</Navbar>
+		}
+
 	}
 
 });

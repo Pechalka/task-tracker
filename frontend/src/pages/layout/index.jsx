@@ -11,9 +11,7 @@ require('./index.css');
 var Layout = React.createClass({
 	mixins : [Navigation],
 	render: function() {
-		//this.props.params
 		return <div>
-			<Menu {...this.props.params}/>
 			<Grid>
 				<RouteHandler />
 			</Grid>

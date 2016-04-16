@@ -24,12 +24,6 @@ module.exports = Waterline.Collection.extend({
         name: {
             type: 'string',
             required: true
-        },
-
-        projects: {
-            collection: 'projects',
-            via: 'users',
-            dominant: true
         }
     }
 });

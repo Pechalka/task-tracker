@@ -26,36 +26,17 @@ ORM.init(app, function(e){
 	auth.init(app);
 
 
-	app.post('/api/projects/:projectId/users', function(req, res){
-		var projectId = req.params.projectId;
-		var users = req.body.users;
-
-		req.db.projects.findOne(projectId).exec(function(err, project) {
-  
-			project.users.add(users);
-			project.save(function(err) {
-				res.json(project)
-			});
-		})
-	})
-
-	app.get('/api/projects', function(req, res){
-		req.db.projects.find().populate('users').exec(function(e, items){
-			res.json(items);
-		})
-	})
 
 
+	app.get('/api/session', auth.checkAuth, auth.getCurrent);
+	app.delete('/api/session', auth.logout);
+	
 
-	app.get('/api/session', auth.checkAuth, auth.getCurrent)
 	app.post('/api/login', auth.login, auth.getCurrent)
 	app.post('/api/logout', auth.logout)
 
-	app.use('/api/projects/:projectId/tasks/:taskId/comments', CRUD.filters('taskId'), ORM.REST('comments'))
-	app.use('/api/projects/:projectId/tasks', CRUD.filters('projectId'), ORM.REST('tasks'));
 	app.use('/api/projects', ORM.REST('projects'))
 	
-
 
 	app.use('/api/users', ORM.REST('users'))
 

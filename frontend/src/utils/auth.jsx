@@ -30,11 +30,20 @@ var auth = {
 
   logout: function (cb) {
    // delete localStorage.token;
-    if (cb) cb();
-    this.onChange(false);
+    // if (cb) cb();
+    // this.onChange(false);
+
+    http.del('/api/session').then(cb);
   },
 
-  loggedIn: function (cb) {
+  loggedIn: function (cb2) {
+    var cb = (user) => {
+
+      this.onChange(user);
+      
+      if (cb2) cb2(user);
+
+    }
     http.get('/api/session')
         .then((user) => cb(user))
         .fail(() => cb(false))
@@ -55,7 +64,11 @@ var Authentication = {
             auth.loggedIn(function(user){
                 _user = user;
                 
-                if (!_user) transition.redirect('/login');
+                if (!_user) {
+                  transition.redirect('/login');
+                } else {
+                  auth.onChange(_user)
+                }
 
                 callback();
             })

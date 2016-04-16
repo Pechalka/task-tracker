@@ -16,9 +16,18 @@ module.exports = Waterline.Collection.extend({
             required: true
         },
 
-        users : {
-            collection: 'users',
-            via: 'projects'
-        }
+        description: {
+            type: 'text',
+            required: true
+        },
+
+        language : {
+            type: 'string'
+        },
+
+        budget : {
+            type: 'integer',
+            required: true
+        },
     }
 });

@@ -6,7 +6,7 @@
         "port": 3306,
         "user": "root",
         "password": "",
-        "database": "task_tracker",
+        "database": "startap",
         "adapter" : "mysql"
     },
     "mongo": {
@@ -14,7 +14,7 @@
         "port": 27017,
         "user": "",
         "password": "",
-        "database": "blog",
+        "database": "startap",
         "mysql" : "mongo"
     }
 }

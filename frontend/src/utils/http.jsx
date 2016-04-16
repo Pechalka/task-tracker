@@ -23,7 +23,7 @@ var post = function(url, data){
 			})
 }
 
-var remove = function(url){
+var del = function(url){
 	return $.ajax({
 		url : url,
 		type : 'DELETE'
@@ -34,5 +34,5 @@ var remove = function(url){
 module.exports = {
 	get : get,
 	post : post,
-	remove : remove
+	del : del
 }
