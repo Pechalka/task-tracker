@@ -1,10 +1,15 @@
-var path = require('path');
+ var path = require('path');
 
 // var node_modules = path.resolve(__dirname, 'node_modules');
 // var pathToReact = path.resolve(node_modules, 'react/dist/react-with-addons.js');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 var webpack = require("webpack");
+
+
+const port = 5000;
+
+const config = require('./src/config.json');
 
 module.exports = {
     context: __dirname +  "/src",
@@ -16,7 +21,7 @@ module.exports = {
         // },
         extensions: ['', '.js', '.jsx', '.styl'],
     },
-
+    port: port,
 //
 
     // externals: {
@@ -32,27 +37,32 @@ module.exports = {
     // }
     output: {
         path: path.resolve(__dirname, 'build'),
-        publicPath : 'http://localhost:5000/',
+        publicPath : 'http://localhost:' + port + '/',
         filename: 'bundle.js',
     },
    // modulesDirectories: ['node_modules', 'web_modules', 'bower_components'],
     module: {
-	    loaders: [
+        loaders: [
             {
-    	      test: /\.jsx?$/, // A regexp to test the require path. accepts either js or jsx
-    	      loader: 'babel' // The module to load. "babel" is short for "babel-loader"
-    	    }, 
+              test: /\.jsx?$/, // A regexp to test the require path. accepts either js or jsx
+                    exclude: /(node_modules|bower_components)/,
+              loader: 'babel' // The module to load. "babel" is short for "babel-loader"
+            },
             {
                 test: /\.css$/, // Only .css files
                 loader: 'style!css' // Run both loaders
             },
-            { 
-                test: /\.styl$/, 
-                loader: 'style-loader!css-loader!stylus-loader' 
-            }, 
-            { 
-                test: /\.woff(\d+)?$/,   
-                loader: 'url-loader?mimetype=application/font-woff' 
+            {
+                test: /\.json$/,
+                loader: 'json'
+            },
+            {
+                test: /\.scss$/,
+                loader: 'style-loader!css-loader!sass-loader',
+            },
+            {
+                test: /\.woff(\d+)?$/,
+                loader: 'url-loader?mimetype=application/font-woff'
             },
             {
                 test: /\.(jpe?g|png|gif|svg)$/i,
@@ -60,29 +70,31 @@ module.exports = {
                     'file?hash=sha512&digest=hex&name=[hash].[ext]',
                     'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
                 ]
-            }
-        // { 
-        //     test: /\.styl$/, 
-        //     loader: 'style-loader!css-loader!stylus-loader' 
-        // }, 
-        // { 
-        //     test: /\.woff(\d+)?$/,   
-        //     loader: 'url-loader?mimetype=application/font-woff' 
+            },
+            { test: /\.ttf$/,    loader: "file-loader" }
+        // {
+        //     test: /\.styl$/,
+        //     loader: 'style-loader!css-loader!stylus-loader'
+        // },
+        // {
+        //     test: /\.woff(\d+)?$/,
+        //     loader: 'url-loader?mimetype=application/font-woff'
         // },
 
-        //   { test: /\.ttf$/,    loader: "file-loader" },
+
         //   { test: /\.eot$/,    loader: "file-loader" },
             // { test: /\.svg$/,    loader: "file-loader" },
             // { test: /\.jpg$/,    loader: "file-loader" }
-            
+
         ]
         //, noParse: [pathToReact]
-	},
+    },
     plugins: [
         new HtmlWebpackPlugin({
-            template: './src/index.html',
+            template: './index.html',
             production: false,
             inject: false,
+            port: port,
         }),
         new webpack.ProvidePlugin({
             $: "jquery",
@@ -90,10 +102,11 @@ module.exports = {
             "window.jQuery": "jquery"
         }),
         new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /de|fr|hu/)
-    ], 
+    ],
     devServer: {
-        proxy: {
-            '*': 'http://localhost:7000'
-        }
-   }
+        port: port,
+      proxy: {
+        '*': config.proxy
+      }
+    }
 };

@@ -1,7 +1,12 @@
-var React = require('react');
+import React from 'react';
 
-var { RouteHandler } = require('react-router');
+const App = ({ children }) => (
+    <div>
+        {children}
+    </div>
+);
 
+<<<<<<< HEAD
 var { Grid, Button , Label, ListGroup, ListGroupItem, Input, Navbar, Nav, NavItem } = require('react-bootstrap');
 
 var { Authentication } = require('utils/auth');
@@ -48,3 +53,6 @@ var App = React.createClass({
 });
 
 module.exports = App;
+=======
+export default App;
+>>>>>>> migrate to new stack

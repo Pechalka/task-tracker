@@ -1,20 +1,26 @@
-var React = require('react');
+import React from 'react';
 
 var { Grid, Row, Col, Button , Label, TabbedArea, TabPane, ListGroup, ListGroupItem, Input } = require('react-bootstrap');
 var { Navigation } = require('react-router');
 var http = require('utils/http');
 require('./index.css');
 
+const LinkedStateMixin = require('react-addons-linked-state-mixin');
 
 var { auth } = require('utils/auth');
 
 
 var LoginForm = React.createClass({
-	mixins : [Navigation, React.addons.LinkedStateMixin],
+	mixins : [Navigation, LinkedStateMixin],
 	getInitialState: function() {
 		return {
+<<<<<<< HEAD
 			email : 'test@test.com',
 			password : 'qwer1234' 
+=======
+			email : 'joe@example.com',
+			password : 'password1'
+>>>>>>> migrate to new stack
 		};
 	},
 	login : function(){
@@ -32,12 +38,12 @@ var LoginForm = React.createClass({
 })
 
 var RegisterForm = React.createClass({
-	mixins : [Navigation, React.addons.LinkedStateMixin],
+	mixins : [Navigation, LinkedStateMixin],
 	getInitialState: function() {
 		return {
 			email : '',
 			name : '',
-			password : '' 
+			password : ''
 		};
 	},
 	regist : function(){
@@ -54,25 +60,22 @@ var RegisterForm = React.createClass({
 	}
 })
 
-var login = React.createClass({
+var Login = React.createClass({
 
 	render: function() {
 		return <Grid>
 			<Row>
-				<Col xsOffset={4} xs={4}>
-					<TabbedArea defaultActiveKey={1}>
-				    	<TabPane eventKey={1} tab='login'>
-					    	<LoginForm/>
-					    </TabPane>
-					    <TabPane eventKey={2} tab='regist'>
-							<RegisterForm/>
-					    </TabPane>
-					</TabbedArea>
+				<Col xsOffset={2} xs={4}>
+					<LoginForm />
 				</Col>
+                <Col xs={4}>
+                    <RegisterForm />
+                </Col>
 			</Row>
 		</Grid>
 	}
 
 });
 
-module.exports = login;
+
+module.exports = Login;

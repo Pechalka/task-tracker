@@ -22,7 +22,7 @@ module.exports = {
     //   "react": "React",
     //   "react/addons": "React"
     // },
-    
+
     output: {
         path: path.resolve(__dirname, 'dist'),
      //   publicPath : 'http://localhost:5000/',
@@ -30,22 +30,32 @@ module.exports = {
     },
    // modulesDirectories: ['node_modules', 'web_modules', 'bower_components'],
     module: {
-	    loaders: [
+        loaders: [
             {
-    	      test: /\.jsx?$/, // A regexp to test the require path. accepts either js or jsx
-    	      loader: 'babel' // The module to load. "babel" is short for "babel-loader"
+              test: /\.jsx?$/, // A regexp to test the require path. accepts either js or jsx
+              loader: 'babel' // The module to load. "babel" is short for "babel-loader"
+              ,
+      exclude: /(node_modules|bower_components)/
             },
             {
                 test: /\.css$/, // Only .css files
                 loader: ExtractTextPlugin.extract('style-loader', 'css-loader') // Run both loaders
             },
-            { 
-                test: /\.styl$/, 
-                loader: ExtractTextPlugin.extract("stylus", "css-loader!stylus-loader") 
-            }, 
-            { 
-                test: /\.woff(\d+)?$/,   
-                loader: 'url-loader?mimetype=application/font-woff' 
+            {
+                test: /\.styl$/,
+                loader: ExtractTextPlugin.extract("stylus", "css-loader!stylus-loader")
+            },
+            {
+                test: /\.scss$/,
+                loader: ExtractTextPlugin.extract([ "css-loader!sass-loader"])
+            },
+            {
+                test: /\.json$/,
+                loader: 'json'
+            },
+            {
+                test: /\.woff(\d+)?$/,
+                loader: 'url-loader?mimetype=application/font-woff'
             },
             {
 //                 loader: 'file-loader?name=images/[name].[ext]'
@@ -55,14 +65,16 @@ module.exports = {
                     'file?hash=sha512&digest=hex&name=images/[hash].[ext]',
                     'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
                 ]
-            }
-        // { 
-        //     test: /\.styl$/, 
-        //     loader: 'style-loader!css-loader!stylus-loader' 
-        // }, 
-        // { 
-        //     test: /\.woff(\d+)?$/,   
-        //     loader: 'url-loader?mimetype=application/font-woff' 
+
+            },
+            { test: /\.ttf$/,    loader: "file-loader" }
+        // {
+        //     test: /\.styl$/,
+        //     loader: 'style-loader!css-loader!stylus-loader'
+        // },
+        // {
+        //     test: /\.woff(\d+)?$/,
+        //     loader: 'url-loader?mimetype=application/font-woff'
         // },
 
         //   { test: /\.ttf$/,    loader: "file-loader" },
@@ -70,15 +82,21 @@ module.exports = {
         //   { test: /\.svg$/,    loader: "file-loader" }
         ]
         //, noParse: [pathToReact]
-	},
+    },
     plugins: [
         new ExtractTextPlugin("app.[hash].css",{
             allChunks: true
         }),
         new HtmlWebpackPlugin({
-            template: './src/index.html',
+            template: './index.html',
             production: true,
         }),
+        new webpack.DefinePlugin({
+            // 'process.env': {
+            //   'NODE_ENV': JSON.stringify('production')
+            // }
+        }),
+        new webpack.optimize.DedupePlugin(),
         new webpack.ProvidePlugin({
             $: "jquery",
             jQuery: "jquery",
