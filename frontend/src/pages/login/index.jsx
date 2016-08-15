@@ -14,13 +14,8 @@ var LoginForm = React.createClass({
 	mixins : [Navigation, LinkedStateMixin],
 	getInitialState: function() {
 		return {
-<<<<<<< HEAD
-			email : 'test@test.com',
-			password : 'qwer1234' 
-=======
 			email : 'joe@example.com',
 			password : 'password1'
->>>>>>> migrate to new stack
 		};
 	},
 	login : function(){

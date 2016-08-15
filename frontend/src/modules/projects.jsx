@@ -70,7 +70,7 @@ export function closePopup() {
 
 export function removeProject(product) {
     return (dispatch) =>
-        http.remove(`/api/projects/${product.id}`)
+        http.del(`/api/projects/${product.id}`)
             .then(() => dispatch({
                 type: 'REMOVE_PROJECT',
                 payload: product,
