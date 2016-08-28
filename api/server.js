@@ -35,7 +35,7 @@ ORM.init(app, function(e){
 
 	app.use('/api/projects', ORM.REST('projects'))
 	
-
+	app.use('/api/tasks', ORM.REST('tasks'))
 	app.use('/api/users', ORM.REST('users'))
 
 	// html5 history api

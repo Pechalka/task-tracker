@@ -1,16 +1,15 @@
 import React from 'react';
 import { Button, Label, ListGroupItem, ListGroup, Modal, Input } from 'react-bootstrap';
-
+import { Link } from 'react-router';
 
 const ProductItem = ({ product, removeProject }) => {
     const users = (product.users || []).map(user => <span>&nbsp;<Label bsStyle='default'>{user.name}</Label></span>);
-    const href = '#';// this.makeHref('tasks', { projectId : p.id })
 
     return (
         <ListGroupItem>
             <div className='clearfix'>
                 <div className='pull-left'>
-                    <Button bsStyle='link' href={href}>{product.title}</Button>
+                    <Link to={`/projects/${product.id}/tasks`}>{product.title}</Link>
                 </div>
                 <div className='pull-right'>
                     <Button

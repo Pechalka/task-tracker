@@ -11,6 +11,9 @@ const NoMatch = () => (
 import App from 'pages/app/';
 import Login from 'pages/Login/';
 import ProjectsList from 'pages/ProjectsList/';
+import TaskList from 'pages/TaskList/';
+import TaskAdd from 'pages/TaskAdd/';
+import TaskDetails from 'pages/TaskDetails/';
 
 const Layout = ({ children }) => (
     <div>
@@ -18,23 +21,8 @@ const Layout = ({ children }) => (
     </div>
 );
 
-const TaskList = () => (
-    <div>
-        <h1>TaskList</h1>
-    </div>
-);
 
-const TaskAdd = () => (
-    <div>
-        <h1>TaskAdd</h1>
-    </div>
-);
 
-const TaskDetails = () => (
-    <div>
-        <h1>TaskDetails</h1>
-    </div>
-);
 
 const UsersList = () => (
     <div>
