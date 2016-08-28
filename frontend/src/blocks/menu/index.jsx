@@ -17,30 +17,34 @@ var menu = React.createClass({
 		});
 	},
 	render: function() {
-		if (this.props.user){
-			return <Navbar brand={<a href="#/">menu</a>}  inverse toggleNavKey={0}>
-				<CollapsibleNav>
-		    	<Nav navbar left eventKey={0}>
+		// if (this.props.user){
+		// 	return <Navbar brand={<a href="#/">menu</a>}  inverse toggleNavKey={0}>
+		// 		<CollapsibleNav>
+		//     	<Nav navbar left eventKey={0}>
 
-		    		<NavItem eventKey={3} href={this.makeHref('add-project')}>start project</NavItem>
-				</Nav>
-		    	<Nav navbar right>
-		    		<NavItem onClick={this.logOut} eventKey={4} >log out</NavItem>
-		    	</Nav>
-		    	</CollapsibleNav>
-		  	</Navbar>
-		} else {
-			return <Navbar brand={<a href="#/">menu</a>}  inverse toggleNavKey={0}>
-				<CollapsibleNav>
-		    	<Nav navbar left eventKey={0}>
-		    		<NavItem eventKey={3} href={this.makeHref('loginAsSupplire')}>login as supplire</NavItem>
-		    		<NavItem eventKey={3} href={this.makeHref('login')}>login as provider</NavItem>
-		    		<NavItem eventKey={3} href={this.makeHref('about')}>about projet</NavItem>
-				</Nav>
-		    	</CollapsibleNav>
-		  	</Navbar>
-		}
-
+		//     		<NavItem eventKey={3} href={this.makeHref('add-project')}>start project</NavItem>
+		// 		</Nav>
+		//     	<Nav navbar right>
+		//     		<NavItem onClick={this.logOut} eventKey={4} >log out</NavItem>
+		//     	</Nav>
+		//     	</CollapsibleNav>
+		//   	</Navbar>
+		// } else {
+		// 	return <Navbar brand={<a href="#/">menu</a>}  inverse toggleNavKey={0}>
+		// 		<CollapsibleNav>
+		//     	<Nav navbar left eventKey={0}>
+		//     		<NavItem eventKey={3} href={this.makeHref('loginAsSupplire')}>login as supplire</NavItem>
+		//     		<NavItem eventKey={3} href={this.makeHref('login')}>login as provider</NavItem>
+		//     		<NavItem eventKey={3} href={this.makeHref('about')}>about projet</NavItem>
+		// 		</Nav>
+		//     	</CollapsibleNav>
+		//   	</Navbar>
+		// }
+        return (
+            <div>
+                menu
+            </div>
+        );
 	}
 
 });

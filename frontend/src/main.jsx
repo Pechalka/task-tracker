@@ -30,7 +30,9 @@ import thunk from 'redux-thunk';
 
 import useScroll from 'scroll-behavior';
 
-import createHistory from 'history/lib/createHashHistory';
+//import createHistory from 'history/lib/createHashHistory';
+import { createHistory } from 'history';
+
 //'history/lib/createBrowserHistory';
 
 import rootReducer from 'reducers';

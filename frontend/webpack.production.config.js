@@ -88,7 +88,7 @@ module.exports = {
             allChunks: true
         }),
         new HtmlWebpackPlugin({
-            template: './index.html',
+            template: './index-prod.html',
             production: true,
         }),
         new webpack.DefinePlugin({

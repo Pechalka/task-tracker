@@ -26,8 +26,6 @@ ORM.init(app, function(e){
 	auth.init(app);
 
 
-
-
 	app.get('/api/session', auth.checkAuth, auth.getCurrent);
 	app.delete('/api/session', auth.logout);
 	
@@ -40,6 +38,10 @@ ORM.init(app, function(e){
 
 	app.use('/api/users', ORM.REST('users'))
 
+	// html5 history api
+	app.all('/*', function(req, res) {
+	  res.sendfile('index.html', { root: __dirname+'/../frontend/dist' });
+	});
 
 
 	var server = app.listen(7000, function () {

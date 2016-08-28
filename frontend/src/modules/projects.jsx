@@ -81,7 +81,7 @@ export function removeProject(product) {
 export function addProject(title, userIds) {
     return (dispatch) => {
         http.post('/api/projects', { title })
-         .then(project => http.post(`/api/projects/${project.id}/users`, { users: userIds }))
+        // .then(project => http.post(`/api/projects/${project.id}/users`, { users: userIds }))
          .then(payload => {
              dispatch({
                  type: 'ADD_PROJECT',

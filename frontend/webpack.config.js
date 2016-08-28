@@ -13,7 +13,10 @@ const config = require('./src/config.json');
 
 module.exports = {
     context: __dirname +  "/src",
-    entry: ['webpack/hot/dev-server', path.resolve(__dirname, 'src/main')],
+    entry: { 
+        javascript: ['webpack/hot/dev-server', path.resolve(__dirname, 'src/main')],
+        html: './index.html'
+},
     resolve: {
         root: path.resolve(__dirname, 'src'),
         // alias: {
@@ -71,7 +74,8 @@ module.exports = {
                     'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
                 ]
             },
-            { test: /\.ttf$/,    loader: "file-loader" }
+            { test: /\.ttf$/,    loader: "file-loader" },
+            { test: /\.html$/, loader: 'file?name=[name].[ext]' },
         // {
         //     test: /\.styl$/,
         //     loader: 'style-loader!css-loader!stylus-loader'
@@ -90,12 +94,12 @@ module.exports = {
         //, noParse: [pathToReact]
     },
     plugins: [
-        new HtmlWebpackPlugin({
-            template: './index.html',
-            production: false,
-            inject: false,
-            port: port,
-        }),
+        // new HtmlWebpackPlugin({
+        //     template: './index.html',
+        //     production: false,
+        //     inject: false,
+        //     port: port,
+        // }),
         new webpack.ProvidePlugin({
             $: "jquery",
             jQuery: "jquery",
@@ -104,9 +108,18 @@ module.exports = {
         new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /de|fr|hu/)
     ],
     devServer: {
+            colors: true,
+    historyApiFallback: true,
+    hot: true,
+    inline: true,
+    progress: true,
+
         port: port,
       proxy: {
-        '*': config.proxy
+        '/api': {
+            target: config.proxy,
+            secure: false,
+        }
       }
     }
 };
