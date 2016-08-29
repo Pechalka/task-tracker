@@ -7,6 +7,7 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 var webpack = require("webpack");
 
+console.log(' process.env.NODE_ENV> ', process.env.NODE_ENV);
 module.exports = {
     context: __dirname +  "/src",
     entry: [ path.resolve(__dirname, 'src/main')],
@@ -25,9 +26,10 @@ module.exports = {
 
     output: {
         path: path.resolve(__dirname, 'dist'),
-     //   publicPath : 'http://localhost:5000/',
+       publicPath : 'http://localhost:7000/',
         filename: 'app.[hash].js'
     },
+    devtool: 'source-map',
    // modulesDirectories: ['node_modules', 'web_modules', 'bower_components'],
     module: {
         loaders: [
@@ -88,13 +90,11 @@ module.exports = {
             allChunks: true
         }),
         new HtmlWebpackPlugin({
-            template: './index-prod.html',
+            template: './index.html',
             production: true,
         }),
         new webpack.DefinePlugin({
-            // 'process.env': {
-            //   'NODE_ENV': JSON.stringify('production')
-            // }
+            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
         }),
         new webpack.optimize.DedupePlugin(),
         new webpack.ProvidePlugin({

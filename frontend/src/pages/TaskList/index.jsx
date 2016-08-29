@@ -22,7 +22,7 @@ export default class TaskList extends Component {
         const { params: { projectId } } = this.props;
         const items = this.state.tasks.map(task => {
             return (
-                <div>
+                <div key={task.id}>
                     <Link to={`/projects/${projectId}/tasks/${task.id}`}>{task.title}</Link>
                 </div>
             );

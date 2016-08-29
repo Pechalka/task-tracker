@@ -8,6 +8,9 @@ var app = express();
 
 app.use(express.static('../frontend/dist'));
 
+var fallback = require('express-history-api-fallback');
+var root = __dirname + '/../frontend/dist'
+
 app.use(require('cookie-parser')());
 app.use(require('cookie-session')({
     secret: config.secret
@@ -19,6 +22,7 @@ app.use(bodyParser.json())
 
 
 var auth = require('./services/auth');
+
 
 ORM.init(app, function(e){
 	app.use(ORM.middleware);
@@ -39,9 +43,7 @@ ORM.init(app, function(e){
 	app.use('/api/users', ORM.REST('users'))
 
 	// html5 history api
-	app.all('/*', function(req, res) {
-	  res.sendfile('index.html', { root: __dirname+'/../frontend/dist' });
-	});
+	app.use(fallback('index.html', { root: root }))
 
 
 	var server = app.listen(7000, function () {

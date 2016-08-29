@@ -5,7 +5,7 @@ require('./index.scss')
 const App = ({ children }) => (
     <div>
         <div>
-            <Link className='colors' to='/'>users</Link>
+            <Link className='colors' to='/'>home</Link>
             <Link to='/users'>users</Link>
         </div>
         {children}
