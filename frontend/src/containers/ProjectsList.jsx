@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { ProjectsList, ProjectPopup } from 'components/Projects/';
 
-import { fetchProducts, removeProject, openPopup, closePopup, addProject, fetchUsers } from 'modules/projects';
+import { fetchProducts, removeProject, openPopup, closePopup, addProject, fetchUsers } from 'reduxApp/modules/projects';
 
 const ProjectsListContainer = connect(
     state => ({

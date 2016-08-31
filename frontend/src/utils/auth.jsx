@@ -1,4 +1,4 @@
-
+// TODO: remove this use auth module
 var http = require('./http');
 
 var _user = null;
@@ -40,7 +40,7 @@ var auth = {
     var cb = (user) => {
 
       this.onChange(user);
-      
+
       if (cb2) cb2(user);
 
     }
@@ -63,7 +63,7 @@ var Authentication = {
         willTransitionTo: function (transition, params, query, callback) {
             auth.loggedIn(function(user){
                 _user = user;
-                
+
                 if (!_user) {
                   transition.redirect('/login');
                 } else {

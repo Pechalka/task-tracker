@@ -18,6 +18,7 @@ module.exports = {
         publicPath: `http://localhost:${port}/`,
         filename: 'bundle.js',
     },
+    devtool: 'eval',
     module: {
         loaders: [
             {

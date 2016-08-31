@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Router, Route, hashHistory, IndexRoute, browserHistory } from 'react-router';
+import { Router, Route, IndexRoute } from 'react-router';
 
 const NoMatch = () => (
     <div>
@@ -10,6 +10,7 @@ const NoMatch = () => (
 
 import App from 'pages/app/';
 import Login from 'pages/Login/';
+
 import ProjectsList from 'pages/ProjectsList/';
 import TaskList from 'pages/TaskList/';
 import TaskAdd from 'pages/TaskAdd/';
@@ -22,15 +23,11 @@ const Layout = ({ children }) => (
 );
 
 
-
-
 const UsersList = () => (
     <div>
-        <h1>UsersLi6st33</h1>
+        <h1>UsersList</h1>
     </div>
 );
-
-//require('./index.scss')
 
 module.exports = ({ dispatch, getState }) => {
     return (
