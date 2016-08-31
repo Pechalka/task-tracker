@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import http from 'utils/http';
 
+import { Table } from 'react-bootstrap';
+
 export default class TaskList extends Component {
     constructor(props) {
         super(props);
@@ -22,18 +24,29 @@ export default class TaskList extends Component {
         const { params: { projectId } } = this.props;
         const items = this.state.tasks.map(task => {
             return (
-                <div key={task.id}>
-                    <Link to={`/projects/${projectId}/tasks/${task.id}`}>{task.title}</Link>
-                </div>
+                <tr key={task.id}>
+                    <td>
+                        <Link to={`/projects/${projectId}/tasks/${task.id}`}>{task.title}</Link>
+                    </td>
+                    <td>
+                        {task.status}
+                    </td>
+                </tr>
             );
         });
         return (
             <div>
-                <h1>TaskList2</h1>
-                <div>
-                    {items}
-                </div>
-                <Link className='btn btn-default' to={`/projects/${projectId}/tasks/add`}>add</Link>
+                <Table>
+                    <thead>
+                      <tr>
+                        <th>Title</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {items}
+                    </tbody>
+                </Table>
             </div>
         );
     }

@@ -41,6 +41,7 @@ ORM.init(app, function(e){
 	
 	app.use('/api/tasks', ORM.REST('tasks'))
 	app.use('/api/users', ORM.REST('users'))
+	app.use('/api/comments', ORM.REST('comments'))
 
 	// html5 history api
 	app.use(fallback('index.html', { root: root }))

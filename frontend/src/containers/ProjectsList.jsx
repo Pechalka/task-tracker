@@ -1,8 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { ProjectsList, ProjectPopup } from 'components/Projects/';
+import DashboardMenu from 'components/DashboardMenu/';
 
 import { fetchProducts, removeProject, openPopup, closePopup, addProject, fetchUsers } from 'reduxApp/modules/projects';
+
+
+const DashboardMenuContainer = connect(
+    null,
+    { addProject: openPopup }
+)(DashboardMenu);
 
 const ProjectsListContainer = connect(
     state => ({
@@ -20,6 +27,7 @@ const ProjectPopupContainer = connect(
 )(ProjectPopup);
 
 export {
+    DashboardMenuContainer,
     ProjectsListContainer,
     ProjectPopupContainer,
 };

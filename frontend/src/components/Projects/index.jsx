@@ -33,9 +33,6 @@ const ProjectsList = ({ openPopup, projects, removeProject }) => (
                 <div className='pull-left'>
                     <h5>My projects</h5>
                 </div>
-                <div className='pull-right'>
-                    <Button onClick={() => openPopup()}>add project</Button>
-                </div>
             </div>
 
         </ListGroupItem>
@@ -98,7 +95,7 @@ const ProjectPopup = React.createClass({
                 </select>
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={create}>create</Button>
+              <Button onSelect={create}>create</Button>
             </Modal.Footer>
           </Modal>
         );

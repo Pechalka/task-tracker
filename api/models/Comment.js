@@ -1,8 +1,8 @@
 var Waterline = require('waterline');
 
 module.exports = Waterline.Collection.extend({
-    identity: 'tasks',
-    tableName : 'tasks',
+    identity: 'comments',
+    tableName : 'comments',
     connection: 'mysql',
 
     attributes: {
@@ -11,18 +11,13 @@ module.exports = Waterline.Collection.extend({
             primaryKey: true,
             autoIncrement: true
         },
-        title: {
+        text: {
             type: 'string',
             required: true
         },
-        status: {
+        userName: {
             type: 'string',
             required: true
-        },
-
-        description: {
-            type: 'string',
-            required: true            
         },
     }
 });

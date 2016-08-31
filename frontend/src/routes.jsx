@@ -8,15 +8,30 @@ const NoMatch = () => (
     </div>
 );
 
-import App from 'pages/app/';
 import Login from 'pages/Login/';
 
 import ProjectsList from 'pages/ProjectsList/';
 import TaskList from 'pages/TaskList/';
 import TaskAdd from 'pages/TaskAdd/';
 import TaskDetails from 'pages/TaskDetails/';
+import Menu from 'components/Menu/';
 
-const Layout = ({ children }) => (
+import { Grid, Col, Row } from 'react-bootstrap';
+
+const TasksLayout = ({ children, params:{ projectId } }) => (
+    <div>
+        <Menu projectId={projectId} />
+        <Grid>
+            <Row>
+                <Col xs={12}>
+                    {children}
+                </Col>
+            </Row>
+        </Grid>
+    </div>
+);
+
+const App = ({ children }) => (
     <div>
         {children}
     </div>
@@ -36,7 +51,7 @@ module.exports = ({ dispatch, getState }) => {
                 <Route path='/' >
                     <Route component={App}>
                         <IndexRoute component={ProjectsList} />
-                        <Route component={Layout} path='projects/:projectId/'>
+                        <Route component={TasksLayout} path='projects/:projectId/'>
                             <Route component={TaskList} path='tasks' />
                             <Route component={TaskAdd} path='tasks/add' />
                             <Route component={TaskDetails} path='tasks/:id' />

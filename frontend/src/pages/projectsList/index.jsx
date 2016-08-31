@@ -1,6 +1,8 @@
 const React = require('react');
 
-import { ProjectsListContainer, ProjectPopupContainer } from 'containers/ProjectsList';
+import { ProjectsListContainer, ProjectPopupContainer, DashboardMenuContainer } from 'containers/ProjectsList';
+
+import { Grid, Row, Col } from 'react-bootstrap';
 
 const ProjectsListPage = React.createClass({
     componentDidMount() {
@@ -10,8 +12,15 @@ const ProjectsListPage = React.createClass({
     render() {
         return (
             <div>
-                <ProjectsListContainer />
-                <ProjectPopupContainer />
+                <DashboardMenuContainer />
+                <Grid>
+                    <Row>
+                        <Col xs={12}>
+                            <ProjectsListContainer />
+                            <ProjectPopupContainer />
+                        </Col>
+                    </Row>
+                </Grid>
             </div>
         );
     },
