@@ -1,55 +1,14 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router';
+import React from 'react';
 
-import { Table } from 'react-bootstrap';
+import { TaskTableContainer } from 'containers/tasks';
 
-class TaskList extends Component {
-    componentDidMount() {
-        this.props.loadTasks();
-    }
+const TaskList = () => (
+    <div>
+        <TaskTableContainer />
+    </div>
+);
 
-    render() {
-        const {
-            params: { projectId },
-            tasks,
-        } = this.props;
-
-        const items = tasks.map(task => {
-            return (
-                <tr key={task.id}>
-                    <td>
-                        <Link to={`/projects/${projectId}/tasks/${task.id}`}>{task.title}</Link>
-                    </td>
-                    <td>
-                        {task.status}
-                    </td>
-                </tr>
-            );
-        });
-        return (
-            <div>
-                <Table>
-                    <thead>
-                      <tr>
-                        <th>Title</th>
-                        <th>Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                        {items}
-                    </tbody>
-                </Table>
-            </div>
-        );
-    }
-}
-
-import { connect } from 'react-redux';
+import need from 'utils/need';
 import { loadTasks } from 'reduxApp/modules/tasks';
 
-export default connect(
-    state => ({
-        tasks: state.tasks.tasks,
-    }),
-    { loadTasks }
-)(TaskList);
+export default need(loadTasks)(TaskList);

@@ -48,13 +48,13 @@ function setComments(payload) {
 
 export function loadComments(taskId) {
     return (dispatch) => {
-        http.get('/api/comments').then(json => dispatch(setComments(json)));
+        return http.get('/api/comments').then(json => dispatch(setComments(json)));
     };
 }
 
 export function loadTasks() {
     return (dispatch) => {
-        http.get('/api/tasks').then(json => dispatch(setTasks(json)));
+        return http.get('/api/tasks').then(json => dispatch(setTasks(json)));
     };
 }
 
@@ -76,8 +76,10 @@ export function removeTask() {
 export function loadTask() {
     return (dispatch, getState) => {
         const { router: { params: { id } } } = getState();
-        http.get(`/api/tasks/${id}`).then(data => dispatch(setTask(data)));
-        dispatch(loadComments());
+        const taskRequest = http.get(`/api/tasks/${id}`).then(data => dispatch(setTask(data)));
+        const commentsRequest = dispatch(loadComments());
+
+        return Promise.all([taskRequest, commentsRequest]);
     };
 }
 

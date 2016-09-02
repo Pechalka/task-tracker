@@ -36,22 +36,26 @@ export function reducer(state = initState, action) {
 
 import http from 'utils/http';
 
-export function fetchProducts() {
-    return (dispatch) => {
-        http.get('/api/projects')
-            .then(payload => dispatch({
-                type: 'FETCH_PRODUCTS',
-                payload,
-            }));
-    };
-}
-
 export function fetchUsers() {
     return (dispatch) => http.get('/api/users')
             .then(payload => dispatch({
                 type: 'FETCH_USERS',
                 payload,
             }));
+}
+
+
+export function loadProducts() {
+    return (dispatch) => {
+        const users = dispatch(fetchUsers());
+        const projects = http.get('/api/projects')
+            .then(payload => dispatch({
+                type: 'FETCH_PRODUCTS',
+                payload,
+            }));
+
+        return Promise.all([projects, users]);
+    };
 }
 
 
