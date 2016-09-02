@@ -1,28 +1,20 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import http from 'utils/http';
 
 import { Table } from 'react-bootstrap';
 
-export default class TaskList extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            tasks: [],
-        };
-    }
-
+class TaskList extends Component {
     componentDidMount() {
-        http.get('/api/tasks').then(json => {
-            this.setState({
-                tasks: json,
-            });
-        });
+        this.props.loadTasks();
     }
 
     render() {
-        const { params: { projectId } } = this.props;
-        const items = this.state.tasks.map(task => {
+        const {
+            params: { projectId },
+            tasks,
+        } = this.props;
+
+        const items = tasks.map(task => {
             return (
                 <tr key={task.id}>
                     <td>
@@ -51,3 +43,13 @@ export default class TaskList extends Component {
         );
     }
 }
+
+import { connect } from 'react-redux';
+import { loadTasks } from 'reduxApp/modules/tasks';
+
+export default connect(
+    state => ({
+        tasks: state.tasks.tasks,
+    }),
+    { loadTasks }
+)(TaskList);

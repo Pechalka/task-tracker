@@ -3,19 +3,26 @@ import { Button, Input } from 'react-bootstrap';
 import http from 'utils/http';
 
 
-
-
 class AddComentForm extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { value: '' };
+    }
+
+    onChange(e) {
+        this.setState({ value: e.target.value });
+    }
+
     addComment() {
-        this.props.addComment(this.refs.comment.getValue());
-        this.refs.comment.setValue('');
+        this.props.addComment(this.state.value);
+        this.setState({ value: '' });
     }
 
     render() {
         return (
             <div>
                 <form>
-                    <Input type='textarea' label='comment' ref='comment' />
+                    <Input value={this.state.value} onChange={(e) => this.onChange(e)} type='textarea' label='comment' ref='comment' />
                     <Button onClick={() => this.addComment()}>add coment</Button>
                 </form>
             </div>
@@ -26,7 +33,7 @@ class AddComentForm extends Component {
 const CommentsList = ({ comments }) => (
     <div>
         {comments.map(comment => (
-            <div>
+            <div key={comment.id}>
                 <h4>{comment.userName}</h4>
                 <p>{comment.text}</p>
             </div>
@@ -34,44 +41,25 @@ const CommentsList = ({ comments }) => (
     </div>
 );
 
-export default class TaskDetails extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            task: null,
-            comments: [{ text: 'test', userName: 'vasa'}],
-        };
-    }
-
-    removeTask() {
-        const id = this.props.params.id;
-        const projectId = this.props.params.projectId;
-        http.del(`/api/tasks/${id}`).then(() => {
-            this.props.history.push(`/projects/${projectId}/tasks`);
-        });
-    }
+class TaskDetails extends Component {
 
     componentDidMount() {
-        const id = this.props.params.id;
-        http.get(`/api/tasks/${id}`).then(data => this.setState({ task: data }));
-        this.loadComments();
-    }
-
-    loadComments() {
-        return http.get('/api/comments').then(json => this.setState({ comments: json }));
-    }
-
-    addComment(text) {
-        http.post('/api/comments', { text, userName: 'vasa' }).then(() => this.loadComments());
+        this.props.loadTask();
     }
 
     render() {
-        if (!this.state.task) return (<div>loading...</div>);
+        const {
+            task,
+            comments,
+            addComment,
+        } = this.props;
+
+        if (!task) return (<div>loading...</div>);
 
         const {
             title,
             description,
-        } = this.state.task;
+        } = task;
 
         return (
             <div>
@@ -81,10 +69,21 @@ export default class TaskDetails extends Component {
                         {description}
                     </p>
                 </div>
-                <Button onClick={this.removeTask.bind(this)}>Delete</Button>
-                <AddComentForm addComment={this.addComment.bind(this)} />
-                <CommentsList comments={this.state.comments} />
+                <Button onClick={() => this.props.removeTask()}>Delete</Button>
+                <AddComentForm addComment={(text) => this.props.addComment(text)} />
+                <CommentsList comments={comments} />
             </div>
         );
     }
 }
+
+import { connect } from 'react-redux';
+import { removeTask, loadTask, addComment } from 'reduxApp/modules/tasks';
+
+export default connect(
+    state => ({
+        task: state.tasks.task,
+        comments: state.tasks.comments,
+    }),
+    { removeTask, loadTask, addComment }
+)(TaskDetails);
