@@ -7,10 +7,10 @@ require('./index.css');
 
 const LinkedStateMixin = require('react-addons-linked-state-mixin');
 
-var { auth } = require('utils/auth');
+//var { auth } = require('utils/auth');
 
 
-var LoginForm = React.createClass({
+let LoginForm = React.createClass({
 	mixins : [Navigation, LinkedStateMixin],
 	getInitialState: function() {
 		return {
@@ -19,9 +19,7 @@ var LoginForm = React.createClass({
 		};
 	},
 	login : function(){
-		auth.login(this.state.email, this.state.password, (login)=>{
-			if (login) this.transitionTo('/');
-		})
+        this.props.login(this.state);
 	},
 	render : function(){
 		return <form className="login-form">
@@ -30,20 +28,28 @@ var LoginForm = React.createClass({
 			<Button onClick={this.login} bsStyle="primary">login</Button>
 		</form>
 	}
-})
+});
 
-var RegisterForm = React.createClass({
+import { connect } from 'react-redux';
+import { login, registr } from 'reduxApp/modules/auth';
+
+LoginForm = connect(
+    null,
+    { login }
+)(LoginForm);
+
+
+let RegisterForm = React.createClass({
 	mixins : [Navigation, LinkedStateMixin],
 	getInitialState: function() {
 		return {
-			email : '',
-			name : '',
-			password : ''
+			email : 'joe@example.com',
+			name : 'joe',
+			password : 'password1'
 		};
 	},
 	regist : function(){
-		http.post('/api/users', this.state)
-			.then(() => this.transitionTo('/'))
+		this.props.registr(this.state);
 	},
 	render : function(){
 		return <form className="login-form">
@@ -54,6 +60,13 @@ var RegisterForm = React.createClass({
 		</form>
 	}
 })
+
+RegisterForm = connect(
+    null,
+    { registr }
+)(RegisterForm);
+
+
 
 var Login = React.createClass({
 

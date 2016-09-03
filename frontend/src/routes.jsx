@@ -14,13 +14,12 @@ import ProjectsList from 'pages/ProjectsList/';
 import TaskList from 'pages/TaskList/';
 import TaskAdd from 'pages/TaskAdd/';
 import TaskDetails from 'pages/TaskDetails/';
-import Menu from 'components/Menu/';
-
+import { requireAuthentication, DashboardMenuContainer, MenuContainer } from 'containers/Auth';
 import { Grid, Col, Row } from 'react-bootstrap';
 
-const TasksLayout = ({ children, params:{ projectId } }) => (
+const TasksLayout = ({ children }) => (
     <div>
-        <Menu projectId={projectId} />
+        <MenuContainer />
         <Grid>
             <Row>
                 <Col xs={12}>
@@ -49,7 +48,7 @@ module.exports = ({ dispatch, getState }) => {
         <div>
             <Router>
                 <Route path='/' >
-                    <Route component={App}>
+                    <Route component={requireAuthentication(App)}>
                         <IndexRoute component={ProjectsList} />
                         <Route component={TasksLayout} path='projects/:projectId/'>
                             <Route component={TaskList} path='tasks' />
@@ -59,7 +58,6 @@ module.exports = ({ dispatch, getState }) => {
                         <Route component={ProjectsList} path='projects' />
                         <Route component={UsersList} path='users' />
                     </Route>
-
                     <Route component={Login} path='login' />
 
                     <Route path='*' component={NoMatch} />

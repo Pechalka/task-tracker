@@ -84,8 +84,9 @@ export function loadTask() {
 }
 
 export function addComment(text) {
-    return (dispatch) => {
-        http.post('/api/comments', { text, userName: 'vasa' }).then(() => dispatch(loadComments()));
+    return (dispatch, getState) => {
+        const { auth: { user: { name } } } = getState();
+        http.post('/api/comments', { text, userName: name }).then(() => dispatch(loadComments()));
     };
 }
 

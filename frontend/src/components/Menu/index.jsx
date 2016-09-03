@@ -8,6 +8,7 @@ export default class Menu extends Component {
     render() {
         const {
             projectId,
+            logout,
         } = this.props;
 
         return (
@@ -24,6 +25,9 @@ export default class Menu extends Component {
                     <LinkContainer to={`/projects/${projectId}/tasks/add`}>
                         <NavItem eventKey={2} href='#'>add task</NavItem>
                     </LinkContainer>
+                </Nav>
+                <Nav pullRight>
+                    <NavItem eventKey={3} onSelect={() => logout()}>logout</NavItem>
                 </Nav>
             </Navbar>
         );

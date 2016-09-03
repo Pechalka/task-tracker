@@ -3,12 +3,16 @@ import { connect } from 'react-redux';
 import { ProjectsList, ProjectPopup } from 'components/Projects/';
 import DashboardMenu from 'components/DashboardMenu/';
 
-import { fetchProducts, removeProject, openPopup, closePopup, addProject, fetchUsers } from 'reduxApp/modules/projects';
+import {
+    fetchProducts, removeProject,
+    openPopup, closePopup, addProject, fetchUsers,
+} from 'reduxApp/modules/projects';
+import { logout } from 'reduxApp/modules/auth';
 
 
 const DashboardMenuContainer = connect(
     null,
-    { addProject: openPopup }
+    { addProject: openPopup, logout }
 )(DashboardMenu);
 
 const ProjectsListContainer = connect(
