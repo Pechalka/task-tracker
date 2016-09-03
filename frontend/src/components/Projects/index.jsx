@@ -1,9 +1,11 @@
 import React from 'react';
 import { Button, Label, ListGroupItem, ListGroup, Modal, Input } from 'react-bootstrap';
 import { Link } from 'react-router';
+import Select from 'react-select';
 
 const ProductItem = ({ product, removeProject }) => {
-    const users = (product.users || []).map(user => <span>&nbsp;<Label bsStyle='default'>{user.name}</Label></span>);
+    const users = (product.users || [])
+        .map(user => <span>&nbsp;<Label bsStyle='default'>{user.name}</Label></span>);
 
     return (
         <ListGroupItem>
@@ -47,7 +49,7 @@ const ProjectsList = ({ openPopup, projects, removeProject }) => (
 
     </ListGroup>
 );
-
+import 'react-select/dist/react-select.css';
 const LinkedStateMixin = require('react-addons-linked-state-mixin');
 
 const ProjectPopup = React.createClass({
@@ -58,7 +60,12 @@ const ProjectPopup = React.createClass({
             userIds: [],
         };
     },
-    // TODO: react-select  https://github.com/JedWatson/react-select
+    onChange(value) {
+        this.setState({
+            userIds: value,
+        });
+    },
+
     render() {
         const {
             users,
@@ -66,18 +73,13 @@ const ProjectPopup = React.createClass({
         } = this.props;
 
         const allUsers = users.map(user => (
-            <option
-              key={user.id}
-              className='test'
-              value={user.id}
-            >{user.name}</option>)
+            { value: user.id, label: user.name })
         );
         const create = () => {
             const {
                 userIds,
                 title,
             } = this.state;
-
             const ids = userIds.map(id => parseInt(id, 10));
             addProject(title, ids);
         };
@@ -87,15 +89,17 @@ const ProjectPopup = React.createClass({
             <Modal.Body>
              <Input valueLink={this.linkState('title')} type='text' label='project title' />
              <b>Team:</b>
-                <select
-                  value={this.state.userIds[0]}
-                  onChange={e => this.setState({ userIds: [e.target.value] })}
-                >
-                    {allUsers}
-                </select>
+                <Select
+                  searchable={true}
+                  multi={true}
+                  value={this.state.userIds}
+                  onChange={this.onChange}
+                  options={allUsers}
+                />
+
             </Modal.Body>
             <Modal.Footer>
-              <Button onSelect={create}>create</Button>
+              <Button onClick={create}>create</Button>
             </Modal.Footer>
           </Modal>
         );

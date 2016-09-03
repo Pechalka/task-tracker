@@ -2,20 +2,16 @@ import React from 'react';
 
 import { Router, Route, IndexRoute } from 'react-router';
 
-const NoMatch = () => (
-    <div>
-        <h1>404</h1>
-    </div>
-);
-
 import Login from 'pages/Login/';
 
 import ProjectsList from 'pages/ProjectsList/';
 import TaskList from 'pages/TaskList/';
 import TaskAdd from 'pages/TaskAdd/';
 import TaskDetails from 'pages/TaskDetails/';
-import { requireAuthentication, DashboardMenuContainer, MenuContainer } from 'containers/Auth';
+import { requireAuthentication, MenuContainer } from 'containers/Auth';
 import { Grid, Col, Row } from 'react-bootstrap';
+import UsersList from 'pages/UsersList';
+import NoMatch from 'pages/NoMatch';
 
 const TasksLayout = ({ children }) => (
     <div>
@@ -33,13 +29,6 @@ const TasksLayout = ({ children }) => (
 const App = ({ children }) => (
     <div>
         {children}
-    </div>
-);
-
-
-const UsersList = () => (
-    <div>
-        <h1>UsersList</h1>
     </div>
 );
 

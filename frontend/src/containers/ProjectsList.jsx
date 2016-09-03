@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { ProjectsList, ProjectPopup } from 'components/Projects/';
-import DashboardMenu from 'components/DashboardMenu/';
+import { DashboardMenu } from 'components/Menu/';
 
 import {
     fetchProducts, removeProject,
+    showAddProject,
     openPopup, closePopup, addProject, fetchUsers,
 } from 'reduxApp/modules/projects';
 import { logout } from 'reduxApp/modules/auth';
@@ -12,7 +13,7 @@ import { logout } from 'reduxApp/modules/auth';
 
 const DashboardMenuContainer = connect(
     null,
-    { addProject: openPopup, logout }
+    { addProject: showAddProject, logout }
 )(DashboardMenu);
 
 const ProjectsListContainer = connect(
@@ -25,7 +26,7 @@ const ProjectsListContainer = connect(
 const ProjectPopupContainer = connect(
     state => ({
         show: state.projects.popupOpen,
-        users: state.projects.users,
+        users: state.users.users,
     }),
     { onHide: closePopup, addProject }
 )(ProjectPopup);

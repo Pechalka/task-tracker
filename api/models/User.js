@@ -25,5 +25,7 @@ module.exports = Waterline.Collection.extend({
             type: 'string',
             required: true
         }
+        
+        //Assignee
     }
 });

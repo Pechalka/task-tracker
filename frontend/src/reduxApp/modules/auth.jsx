@@ -50,8 +50,7 @@ export function login(form) {
 export function registr(form) {
     return (dispatch) => http.post('/api/users', form)
         .then(user => {
-            dispatch(startSession(user));
-            dispatch(push('/'));
+            dispatch(login(form));
         });
 }
 

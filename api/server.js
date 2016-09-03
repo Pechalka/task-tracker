@@ -38,10 +38,14 @@ ORM.init(app, function(e){
 	app.post('/api/logout', auth.logout)
 
 	app.use('/api/projects', ORM.REST('projects'))
+
+	app.use('/api/tasks/:task/comments', CRUD.filters('task'), ORM.REST('comments')); 
 	
+
 	app.use('/api/tasks', ORM.REST('tasks'))
 	app.use('/api/users', ORM.REST('users'))
-	app.use('/api/comments', ORM.REST('comments'))
+	app.use('/api/version', ORM.REST('version'))
+
 
 	// html5 history api
 	app.use(fallback('index.html', { root: root }))

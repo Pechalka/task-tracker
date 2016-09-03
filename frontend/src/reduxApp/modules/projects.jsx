@@ -2,16 +2,12 @@
 const initState = {
     projects: [],
     popupOpen: false,
-    users: [],
 };
 
 export function reducer(state = initState, action) {
     switch (action.type) {
         case 'FETCH_PRODUCTS':
             return { ...state, projects: action.payload };
-
-        case 'FETCH_USERS':
-            return { ...state, users: action.payload };
 
         case 'REMOVE_PROJECT': {
             const projects = state.projects.filter(product => product.id !== action.payload.id);
@@ -35,15 +31,8 @@ export function reducer(state = initState, action) {
 }
 
 import http from 'utils/http';
-
-export function fetchUsers() {
-    return (dispatch) => http.get('/api/users')
-            .then(payload => dispatch({
-                type: 'FETCH_USERS',
-                payload,
-            }));
-}
-
+import { push } from 'redux-router';
+import { fetchUsers } from './users';
 
 export function loadProducts() {
     return (dispatch) => {
@@ -81,6 +70,12 @@ export function removeProject(product) {
             }));
 }
 
+export function showAddProject() {
+    return (dispatch) => {
+        dispatch(push('/'));
+        dispatch(openPopup());
+    };
+}
 
 export function addProject(title, userIds) {
     return (dispatch) => {

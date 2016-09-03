@@ -1,6 +1,6 @@
 
 import { connect } from 'react-redux';
-import { removeTask, addComment } from 'reduxApp/modules/tasks';
+import { removeTask, addComment, removeComent } from 'reduxApp/modules/tasks';
 
 import { AddComentForm, CommentsList, TaskInfo, TaskTable } from 'components/Tasks/';
 
@@ -15,7 +15,8 @@ const TaskInfoContainer = connect(
 const CommentsListContainer = connect(
     state => ({
         comments: state.tasks.comments,
-    })
+    }),
+    { removeComent }
 )(CommentsList);
 
 const AddComentFormContainer = connect(

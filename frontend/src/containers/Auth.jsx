@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 //import { pushState } from 'redux-router';
 
-import Menu from 'components/Menu/';
+import { Menu } from 'components/Menu/';
 
 import { checkAuth, logout } from 'reduxApp/modules/auth';
 

@@ -38,12 +38,17 @@ class AddComentForm extends Component {
 }
 
 
-const CommentsList = ({ comments }) => (
+const CommentsList = ({ comments, removeComent }) => (
     <div>
         {comments.map(comment => (
             <div key={comment.id}>
-                <h4>{comment.userName}</h4>
+                <h4>
+                    <span>{comment.userName}</span>
+                    <Button bsStyle='link' bsSize='xsmall' onClick={() => removeComent(comment)}>remove</Button>
+                </h4>
+
                 <p>{comment.text}</p>
+                <hr />
             </div>
         ))}
     </div>
@@ -67,6 +72,8 @@ const TaskTable = ({ tasks, projectId }) => (
           <tr>
             <th>Title</th>
             <th>Status</th>
+            <th>Assignee</th>
+            <th>Version</th>
           </tr>
         </thead>
         <tbody>
@@ -77,6 +84,12 @@ const TaskTable = ({ tasks, projectId }) => (
                     </td>
                     <td>
                         {task.status}
+                    </td>
+                    <td>
+                        {task.assigneeName}
+                    </td>
+                    <td>
+                        {task.version}
                     </td>
                 </tr>
             ))}

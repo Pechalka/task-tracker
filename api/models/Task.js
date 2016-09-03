@@ -24,5 +24,23 @@ module.exports = Waterline.Collection.extend({
             type: 'string',
             required: true            
         },
+
+        comments: {
+          collection: 'comments',
+          via: 'task'
+        },
+
+
+        assignee: {
+          model: 'users'
+        },
+
+        assigneeName: {
+            type: 'string',            
+        },
+
+        version: {
+            type: 'string',            
+        }
     }
 });
