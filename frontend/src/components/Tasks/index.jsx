@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 import { Button, Input } from 'react-bootstrap';
 import { Link } from 'react-router';
@@ -6,16 +6,18 @@ import { Link } from 'react-router';
 import { Table } from 'react-bootstrap';
 
 class AddComentForm extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { value: '' };
+
+    state = { value: '' }
+
+    static propTypes = {
+        addComment: PropTypes.func,
     }
 
-    onChange(e) {
+    onChange = (e) => {
         this.setState({ value: e.target.value });
     }
 
-    addComment() {
+    addComment = () => {
         this.props.addComment(this.state.value);
         this.setState({ value: '' });
     }
@@ -26,11 +28,11 @@ class AddComentForm extends Component {
                 <form>
                     <Input
                       value={this.state.value}
-                      onChange={(e) => this.onChange(e)}
+                      onChange={this.onChange}
                       type='textarea'
                       label='comment'
                     />
-                    <Button onClick={() => this.addComment()}>add coment</Button>
+                    <Button onClick={this.addComment}>add coment</Button>
                 </form>
             </div>
         );
@@ -44,7 +46,11 @@ const CommentsList = ({ comments, removeComent }) => (
             <div key={comment.id}>
                 <h4>
                     <span>{comment.userName}</span>
-                    <Button bsStyle='link' bsSize='xsmall' onClick={() => removeComent(comment)}>remove</Button>
+                    <Button
+                      bsStyle='link'
+                      bsSize='xsmall'
+                      onClick={() => removeComent(comment)}
+                    >remove</Button>
                 </h4>
 
                 <p>{comment.text}</p>
@@ -53,6 +59,12 @@ const CommentsList = ({ comments, removeComent }) => (
         ))}
     </div>
 );
+
+CommentsList.propTypes = {
+    comments: PropTypes.array,
+    removeComent: PropTypes.func,
+};
+
 
 const TaskInfo = ({ task: { title, description }, removeTask }) => (
     <div>
@@ -65,6 +77,12 @@ const TaskInfo = ({ task: { title, description }, removeTask }) => (
         <Button onClick={() => removeTask()}>Delete</Button>
     </div>
 );
+
+TaskInfo.propTypes = {
+    task: PropTypes.object,
+    removeTask: PropTypes.func,
+};
+
 
 const TaskTable = ({ tasks, projectId }) => (
     <Table>
@@ -96,6 +114,11 @@ const TaskTable = ({ tasks, projectId }) => (
         </tbody>
     </Table>
 );
+
+TaskTable.propTypes = {
+    tasks: PropTypes.array,
+    projectId: PropTypes.string,
+};
 
 export {
     AddComentForm,

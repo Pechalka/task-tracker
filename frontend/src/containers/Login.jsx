@@ -9,6 +9,7 @@ const LoginFormContainer = connect(
     { login }
 )(LoginForm);
 
+
 const RegisterFormContainer = connect(
     null,
     { registr }

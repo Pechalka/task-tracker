@@ -9,7 +9,7 @@ const { port } = config;
 
 module.exports = {
     context: `${__dirname}/src`,
-    entry: './main',
+    entry: ['babel-polyfill', './main'],
     resolve: {
         root: path.resolve(__dirname, 'src'),
         extensions: ['', '.js', '.jsx', '.styl'],
@@ -25,6 +25,9 @@ module.exports = {
                 test: /\.jsx?$/,
                 exclude: /(node_modules|bower_components)/,
                 loader: 'babel',
+                include: [
+                    path.resolve(__dirname, 'src'),
+                ],
             },
             {
                 test: /\.css$/,
@@ -60,6 +63,7 @@ module.exports = {
             template: './index.html',
         }),
         new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /de|fr|hu/),
+        new webpack.NoErrorsPlugin(),
     ],
     devServer: {
         historyApiFallback: true,

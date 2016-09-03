@@ -1,52 +1,65 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 
-const { Button, Input } = require('react-bootstrap');
-require('./index.css');
+import { Button, Input } from 'react-bootstrap';
+import './index.css';
 
-const LinkedStateMixin = require('react-addons-linked-state-mixin');
-
-const LoginForm = React.createClass({
-    mixins : [LinkedStateMixin],
-    getInitialState: function() {
-        return {
-            email : 'joe@example.com',
-            password : 'password1'
-        };
-    },
-    login : function(){
-        this.props.login(this.state);
-    },
-    render : function(){
-        return <form className="login-form">
-            <Input valueLink={this.linkState('email')} type="text" label="email" />
-            <Input valueLink={this.linkState('password')} type="password" label="password" />
-            <Button onClick={this.login} bsStyle="primary">login</Button>
+const LoginForm = ({ login }) => {
+    let email;
+    let password;
+    return (
+        <form className='login-form'>
+            <Input
+              ref={node => { email = node; }}
+              defaultValue='joe@example.com'
+              type='text'
+              label='email'
+            />
+            <Input
+              ref={node => { password = node; }}
+              defaultValue='password1'
+              type='password'
+              label='password'
+            />
+            <Button
+              onClick={() =>
+                login({
+                    email: email.getValue(),
+                    password: password.getValue(),
+                })}
+              bsStyle='primary'
+            >login</Button>
         </form>
-    }
-});
+    );
+};
 
+LoginForm.propTypes = {
+    login: PropTypes.func,
+};
 
-const RegisterForm = React.createClass({
-    mixins : [LinkedStateMixin],
-    getInitialState: function() {
-        return {
-            email : 'joe@example.com',
-            name : 'joe',
-            password : 'password1'
-        };
-    },
-    regist : function(){
-        this.props.registr(this.state);
-    },
-    render : function(){
-        return <form className="login-form">
-            <Input valueLink={this.linkState('email')} type="text" label="email" />
-            <Input valueLink={this.linkState('password')} type="password" label="password" />
-            <Input valueLink={this.linkState('name')} type="text" label="name" />
-            <Button onClick={this.regist} bsStyle="success">regist</Button>
-        </form>
+class RegisterForm extends Component {
+    static propTypes = {
+        registr: PropTypes.func,
     }
-})
+
+    regist = () => {
+        this.props.registr({
+            email: this.refs.email.getValue(),
+            password: this.refs.password.getValue(),
+            name: this.refs.name.getValue(),
+        });
+    }
+
+    render() {
+        return (
+            <form className='login-form'>
+                <Input ref='email' defaultValue='joe@example.com' type='text' label='email' />
+                <Input ref='password' defaultValue='password1' type='password' label='password' />
+                <Input ref='name' defaultValue='joe' type='text' label='name' />
+                <Button onClick={this.regist} bsStyle='success'>regist</Button>
+            </form>
+        );
+    }
+}
 
 
 export {
