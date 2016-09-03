@@ -9,6 +9,7 @@ import { checkAuth, logout } from 'reduxApp/modules/auth';
 export const MenuContainer = connect(
     state => ({
         projectId: state.router.params.projectId,
+        router: state.router,
     }),
     { logout }
 )(Menu);
