@@ -9,6 +9,7 @@ import { requireAuthentication } from 'containers/Auth';
 import UsersList from 'pages/UsersList';
 import NoMatch from 'pages/NoMatch';
 import { TasksLayout, TaskAdd, TaskDetails, TaskList } from 'pages/TasksLayout';
+import Test from 'pages/Test';
 
 const App = ({ children }) => (
     <div>
@@ -34,7 +35,7 @@ module.exports = ({ dispatch, getState }) => {
                         <Route component={UsersList} path='users' />
                     </Route>
                     <Route component={Login} path='login' />
-
+                    <Route component={Test} path='test' />
                     <Route path='*' component={NoMatch} />
                 </Route>
             </Router>
