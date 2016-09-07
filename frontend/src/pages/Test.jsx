@@ -40,6 +40,9 @@ class TodoList {
 }
 
 const todoList = new TodoList();
+todoList.addTodo('test1');
+todoList.addTodo('test2');
+todoList.addTodo('test3');
 
 // const todoList = observable([
 //     {
@@ -76,10 +79,10 @@ const ListItem = observer(({ item, remove, toogle }) => {
     );
 });
 
-const List = observer(({ todos, remove, toogle }) => {
+const List = observer(({ todoList: { visableItems }, remove, toogle }) => {
     return (
         <div>
-            {todos.map(item => (
+            {visableItems.map(item => (
                 <ListItem key={item.id} item={item} remove={remove} toogle={toogle} />
             ))}
         </div>
@@ -122,7 +125,8 @@ export default class Test extends Component {
                   changeFilter={filter => todoList.changeFilter(filter)}
                 />
                 <List
-                  todos={todoList.visableItems}
+                  todoList={todoList}
+                  remove={todoList.removeTodo}
                   remove={(item) => todoList.removeTodo(item)}
                   toogle={todoList.toogleTodo}
                 />
