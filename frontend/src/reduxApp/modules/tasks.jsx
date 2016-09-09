@@ -1,7 +1,6 @@
 
 const initState = {
     tasks: [],
-    comments: [],
     task: null,
     statuses: ['new', 'inprogress', 'testing', 'complited'],
     versions: [],
@@ -15,13 +14,6 @@ export function reducer(state = initState, action) {
         case 'SET_TASK':
             return { ...state, task: action.payload };
 
-        case 'SET_COMMENTS':
-            return { ...state, comments: action.payload };
-
-        case 'REMOVE_COMMENTS': {
-            const comments = state.comments.filter(coment => coment.id !== action.payload.id);
-            return { ...state, comments };
-        }
         case 'SET_VERSIONS':
             return { ...state, versions: action.payload };
 
@@ -33,6 +25,7 @@ export function reducer(state = initState, action) {
     }
 }
 
+import { loadComments } from 'reduxApp/modules/comments';
 import { fetchUsers } from 'reduxApp/modules/users';
 
 import { push } from 'redux-router';
@@ -52,23 +45,10 @@ function setTask(payload) {
     };
 }
 
-function setComments(payload) {
-    return {
-        type: 'SET_COMMENTS',
-        payload,
-    };
-}
-
-export function loadComments(taskId) {
-    return (dispatch) => {
-        return http.get(`/api/tasks/${taskId}/comments`).then(json => dispatch(setComments(json)));
-    };
-}
 
 export function loadTasks() {
-    return (dispatch) => {
-        return http.get('/api/tasks').then(json => dispatch(setTasks(json)));
-    };
+    return (dispatch) => http.get('/api/tasks')
+        .then(json => dispatch(setTasks(json)));
 }
 
 
@@ -96,24 +76,6 @@ export function loadTask() {
     };
 }
 
-export function addComment(text) {
-    return (dispatch, getState) => {
-        const {
-            auth: { user: { name } },
-            router: { params: { id } },
-        } = getState();
-        http.post(`/api/tasks/${id}/comments`, { text, userName: name })
-            .then(() => dispatch(loadComments(id)));
-    };
-}
-
-export function removeComent(comment) {
-    return (dispatch, getState) => {
-        const { router: { params: { id } } } = getState();
-        return http.del(`/api/tasks/${id}/comments/${comment.id}`)
-            .then(() => dispatch({ type: 'REMOVE_COMMENTS', payload: comment }));
-    };
-}
 
 export function addVersion() {
     return (dispatch) => {
