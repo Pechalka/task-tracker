@@ -25,8 +25,6 @@ export function reducer(state = initState, action) {
     }
 }
 
-import { fetchUsers } from 'reduxApp/modules/users';
-
 import { push } from 'redux-router';
 import http from 'utils/http';
 
@@ -81,12 +79,17 @@ export function addVersion() {
     };
 }
 
-export function showAddTaskForm() {
-    return (dispatch) => {
-        const users = dispatch(fetchUsers());
-        const versions = http.get('/api/version')
+export function loadVersions() {
+    return (dispatch) => http.get('/api/version')
             .then(data => dispatch({ type: 'SET_VERSIONS', payload: data }));
-        return Promise.all([users, versions]);
-    };
 }
+
+// export function showAddTaskForm() {
+//     return (dispatch) => {
+//         const users = dispatch(fetchUsers());
+//         const versions = http.get('/api/version')
+//             .then(data => dispatch({ type: 'SET_VERSIONS', payload: data }));
+//         return Promise.all([users, versions]);
+//     };
+// }
 
