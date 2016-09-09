@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 // TODO:
 // inteegrate something like this
 // https://github.com/Rezonans/redux-async-connect
-const need = (action) => (Component) => {
+const loading = (action) => (Component) => {
     const Wrapper = React.createClass({
         getInitialState() {
             return {
@@ -16,9 +16,17 @@ const need = (action) => (Component) => {
             const {
                 params,
                 location: { query },
+                dispatch,
             } = this.props;
 
-            this.props.action(params, query).then(() => this.setState({ loading: false }));
+            if (Array.isArray(action)) {
+                Promise.all(
+                    action.map(oneAction => dispatch(oneAction(params, query)))
+                ).then(() => this.setState({ loading: false }));
+
+            } else {
+                dispatch(action(params, query)).then(() => this.setState({ loading: false }));
+            }
         },
 
         render() {
@@ -28,9 +36,7 @@ const need = (action) => (Component) => {
         },
     });
 
-    return connect(null, {
-        action,
-    })(Wrapper);
+    return connect(null)(Wrapper);
 };
 
-export default need;
+export default loading;

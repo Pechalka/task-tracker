@@ -15,7 +15,8 @@ const ProjectsListPage = () => (
     </Main>
 );
 
-import need from 'utils/need';
+import loading from 'containers/Application/loading';
 import { loadProducts } from 'reduxApp/modules/projects';
+import { fetchUsers } from 'reduxApp/modules/users';
 
-export default need(loadProducts)(ProjectsListPage);
+export default loading([loadProducts, fetchUsers])(ProjectsListPage);

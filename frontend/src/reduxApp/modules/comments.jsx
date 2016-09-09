@@ -27,8 +27,8 @@ function setComments(payload) {
     };
 }
 
-export function loadComments(taskId) {
-    return (dispatch) => http.get(`/api/tasks/${taskId}/comments`)
+export function loadComments({ id }) {
+    return (dispatch) => http.get(`/api/tasks/${id}/comments`)
         .then(json => dispatch(setComments(json)));
 }
 
@@ -40,7 +40,7 @@ export function addComment(text) {
             router: { params: { id } },
         } = getState();
         http.post(`/api/tasks/${id}/comments`, { text, userName: name })
-            .then(() => dispatch(loadComments(id)));
+            .then(() => dispatch(loadComments({ id })));
     };
 }
 
