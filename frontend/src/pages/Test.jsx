@@ -126,7 +126,6 @@ export default class Test extends Component {
                 />
                 <List
                   todoList={todoList}
-                  remove={todoList.removeTodo}
                   remove={(item) => todoList.removeTodo(item)}
                   toogle={todoList.toogleTodo}
                 />
