@@ -25,7 +25,6 @@ export function reducer(state = initState, action) {
     }
 }
 
-import { loadComments } from 'reduxApp/modules/comments';
 import { fetchUsers } from 'reduxApp/modules/users';
 
 import { push } from 'redux-router';
@@ -66,14 +65,9 @@ export function removeTask() {
     };
 }
 
-export function loadTask() {
-    return (dispatch, getState) => {
-        const { router: { params: { id } } } = getState();
-        const taskRequest = http.get(`/api/tasks/${id}`).then(data => dispatch(setTask(data)));
-        const commentsRequest = dispatch(loadComments(id));
-
-        return Promise.all([taskRequest, commentsRequest]);
-    };
+export function loadTask({ id }) {
+    return (dispatch, getState) => http.get(`/api/tasks/${id}`)
+        .then(data => dispatch(setTask(data)));
 }
 
 

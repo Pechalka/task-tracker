@@ -32,19 +32,13 @@ export function reducer(state = initState, action) {
 
 import http from 'utils/http';
 import { push } from 'redux-router';
-import { fetchUsers } from './users';
 
 export function loadProducts() {
-    return (dispatch) => {
-        const users = dispatch(fetchUsers());
-        const projects = http.get('/api/projects')
+    return (dispatch) => http.get('/api/projects')
             .then(payload => dispatch({
                 type: 'FETCH_PRODUCTS',
                 payload,
             }));
-
-        return Promise.all([projects, users]);
-    };
 }
 
 

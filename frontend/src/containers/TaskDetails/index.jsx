@@ -12,7 +12,8 @@ const TaskDetails = () => (
     </div>
 );
 
-import need from 'utils/need';
+import loading from 'containers/Application/loading';
 import { loadTask } from 'reduxApp/modules/tasks';
+import { loadComments } from 'reduxApp/modules/comments';
 
-export default need(loadTask)(TaskDetails);
+export default loading([loadTask, loadComments])(TaskDetails);

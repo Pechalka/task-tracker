@@ -10,6 +10,6 @@ const UsersList = () => (
     </Main>
 );
 
-import need from 'utils/need';
+import loading from 'containers/Application/loading';
 import { fetchUsers } from 'reduxApp/modules/users';
-export default need(fetchUsers)(UsersList);
+export default loading(fetchUsers)(UsersList);

@@ -9,7 +9,7 @@ const TaskList = () => (
     </div>
 );
 
-import need from 'utils/need';
+import loading from 'containers/Application/loading';
 import { loadTasks } from 'reduxApp/modules/tasks';
 
-export default need(loadTasks)(TaskList);
+export default loading(loadTasks)(TaskList);

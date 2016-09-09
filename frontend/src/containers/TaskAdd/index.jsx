@@ -92,7 +92,7 @@ class TaskAdd extends Component {
 import { connect } from 'react-redux';
 import { addTask, addVersion, showAddTaskForm } from 'reduxApp/modules/tasks';
 
-import need from 'utils/need';
+import loading from 'containers/Application/loading';
 
 export default connect(
     state => ({
@@ -101,4 +101,4 @@ export default connect(
         versions: state.tasks.versions,
         assignee: state.auth.user ? state.auth.user.id : null,
     })
-, { addTask, addVersion })(need(showAddTaskForm)(TaskAdd));
+, { addTask, addVersion })(loading(showAddTaskForm)(TaskAdd));
