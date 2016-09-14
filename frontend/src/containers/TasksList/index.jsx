@@ -3,13 +3,17 @@ import React from 'react';
 
 import TaskTable from './TaskTable';
 
+import TaskFilter from './TaskFilter';
+
 const TaskList = () => (
     <div>
+        <TaskFilter />
         <TaskTable />
     </div>
 );
 
 import loading from 'containers/Application/loading';
 import { loadTasks } from 'reduxApp/modules/tasks';
+import { fetchUsers } from 'reduxApp/modules/users';
 
-export default loading(loadTasks)(TaskList);
+export default loading([loadTasks, fetchUsers])(TaskList);
