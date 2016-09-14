@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import { TaskTable as TaskTableComponent } from 'components/Tasks/';
+import TaskTableComponent from 'components/TaskTable/';
 
 const TaskTable = connect(
     state => ({
