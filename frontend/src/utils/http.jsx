@@ -4,12 +4,13 @@ var $ = require('jquery');
 
 
 
-var get = function(url){
+var get = function(url, data){
 	return $.ajax({
 		url : url,
 		type : 'GET',
 		dataType : 'json',
 		cache : false,
+        data,
 		contentType:"application/json"
 	})
 }

@@ -42,10 +42,22 @@ function setTask(payload) {
     };
 }
 
+const toParams = (obj) => Object.keys(obj)
+    .filter(key => !!obj[key])
+    .map(key => `${key}=${obj[key]}`)
+    .join('&');
 
+// TODO: page leavel loadTasks(params)
 export function loadTasks() {
-    return (dispatch) => http.get('/api/tasks')
-        .then(json => dispatch(setTasks(json)));
+    return (dispatch, getState) => {
+        const { userId, status } = getState().taskFilter;
+        const paramsStr = toParams({
+            assignee: userId,
+            status,
+        });
+        return http.get(`/api/tasks?${paramsStr}`)
+            .then(json => dispatch(setTasks(json)));
+    };
 }
 
 

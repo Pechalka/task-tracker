@@ -46,7 +46,7 @@ module.exports = function (modelName, foreignKey) {
 
 
 //TODO: make more complex query
-module.exports.filters = function(foreignKey){
+module.exports.foreignKey = function(foreignKey){
 	return function (req, res, next) {
         if (foreignKey){
 	    	req.filters = req.filters || {};
@@ -56,12 +56,25 @@ module.exports.filters = function(foreignKey){
             if (req.body){
                 req.body[foreignKey] = value;    
             }
-	    
     	}
         //console.log(req.body, req.params, foreignKey)
     	next();
 	}
 };
+
+module.exports.query = function(names) {
+    return function(req, res, next) {
+        req.filters = req.filters || {};
+
+        names.forEach(function(name){
+            if (req.query[name]) { //TODO: fix 0
+                req.filters[name] = req.query[name];    
+            }            
+        })
+
+        next();
+    }
+}
 
 
 module.exports.exec = function (req, res, next) {

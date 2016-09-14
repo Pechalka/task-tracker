@@ -39,10 +39,10 @@ ORM.init(app, function(e){
 
 	app.use('/api/projects', ORM.REST('projects'))
 
-	app.use('/api/tasks/:task/comments', CRUD.filters('task'), ORM.REST('comments')); 
+	app.use('/api/tasks/:task/comments', CRUD.foreignKey('task'), ORM.REST('comments')); 
 	
 
-	app.use('/api/tasks', ORM.REST('tasks'))
+	app.use('/api/tasks', CRUD.query(['status', 'assignee', 'version']), ORM.REST('tasks'))
 	app.use('/api/users', ORM.REST('users'))
 	app.use('/api/version', ORM.REST('version'))
 
