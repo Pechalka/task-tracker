@@ -16,6 +16,9 @@ export function reducer(state = initState, action) {
     }
 }
 
+import { setPage, loadTasks } from 'reduxApp/modules/tasks';
+
+
 export function changeFilter(field, value) {
     return {
         type: 'CHANGE_TASK_FILTER',
@@ -23,3 +26,9 @@ export function changeFilter(field, value) {
     };
 }
 
+export function findTask() {
+    return (dispatch) => {
+        dispatch(setPage(1));
+        dispatch(loadTasks());
+    };
+}

@@ -128,9 +128,10 @@ var exports = {
 
     	var service = CRUD(collectionName, foreignKey);
 		
-		
 		return router
     			.get('/', service.findAll)
+				.get('/page/:page', service.getPage, service.count, CRUD.execPage, CRUD.returnJSON)
+				.get('/page/:page/:limit', service.getPage, service.count, CRUD.execPage, CRUD.returnJSON)
 				.get('/:id', service.findOne)
 				.post('/', service.add)
 				.put('/:id', service.updateOne)

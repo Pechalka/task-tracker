@@ -4,18 +4,25 @@ const initState = {
     task: null,
     statuses: ['new', 'inprogress', 'testing', 'complited'],
     versions: [],
+    page: 1,
+    items: 0,
 };
 
 export function reducer(state = initState, action) {
     switch (action.type) {
-        case 'SET_TASKS':
-            return { ...state, tasks: action.payload };
+        case 'SET_TASKS': {
+            const { count, items } = action.payload;
+            return { ...state, tasks: items, items: Math.ceil(count / 10) };
+        }
 
         case 'SET_TASK':
             return { ...state, task: action.payload };
 
         case 'SET_VERSIONS':
             return { ...state, versions: action.payload };
+
+        case 'SET_TASKS_PAGE':
+            return { ...state, page: action.payload };
 
         case 'ADD_VERSION':
             return { ...state, versions: state.versions.concat([action.payload]) };
@@ -55,11 +62,25 @@ export function loadTasks() {
             assignee: userId,
             status,
         });
-        return http.get(`/api/tasks?${paramsStr}`)
-            .then(json => dispatch(setTasks(json)));
+        const page = getState().tasks.page - 1;
+        return http.get(`/api/tasks/page/${page}/5?${paramsStr}`)
+            .then(({ items, count }) => dispatch(setTasks({ items, count })));
     };
 }
 
+export function setPage(page) {
+    return {
+        type: 'SET_TASKS_PAGE',
+        payload: page,
+    };
+}
+
+export function changeTaskPage(e, data) {
+    return (dispatch) => {
+        dispatch(setPage(data.eventKey));
+        dispatch(loadTasks());
+    };
+}
 
 export function addTask(form) {
     return (dispatch, getState) => {

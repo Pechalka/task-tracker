@@ -28,8 +28,9 @@ function setComments(payload) {
 }
 
 export function loadComments({ id }) {
-    return (dispatch) => http.get(`/api/tasks/${id}/comments`)
-        .then(json => dispatch(setComments(json)));
+    // TODO: make load more
+    return (dispatch) => http.get(`/api/tasks/${id}/comments/page/0/5`)
+        .then(json => dispatch(setComments(json.items)));
 }
 
 

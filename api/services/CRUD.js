@@ -16,6 +16,21 @@ module.exports = function (modelName, foreignKey) {
                 req.db[modelName].find());
             next();
         },
+        getPage: function(req, res, next) {
+            var page = req.param('page');
+            var limit = req.param('limit') || 10;
+
+            res.ormQuery = applyFilters(
+                req.filters,
+                req.db[modelName].find({ skip: page * limit, limit: limit }));
+            next();
+        },
+        count: function(req, res, next) {
+            res.count = applyFilters(
+                req.filters,
+                req.db[modelName].count());
+            next();
+        },
         findOne: function (req, res, next) {
             res.ormQuery = applyFilters(
                 req.filters,
@@ -88,6 +103,22 @@ module.exports.exec = function (req, res, next) {
     }
     res.ormQuery.exec(cb);
 };
+
+//TODO: create generec way for requests
+module.exports.execPage = function(req, res, next) {
+    var cb = function(results, err){
+        if (err) {
+            return next(err);
+        }
+        res.result = {
+            items: results[0],
+            count: results[1]
+        } 
+
+        next();
+    }
+    Promise.all([res.ormQuery, res.count]).then(cb);
+}
 
 
 
