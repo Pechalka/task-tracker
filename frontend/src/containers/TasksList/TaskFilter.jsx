@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import * as action from 'reduxApp/modules/taskFilter';
-import { loadTasks } from 'reduxApp/modules/tasks';
+// import { loadTasks } from 'reduxApp/modules/tasks';
 
 import TaskFilter from 'components/TaskFilter/';
 
@@ -14,7 +14,7 @@ export default connect(
     }),
     {
         changeFilter: action.changeFilter,
-        findTask: loadTasks,
+        findTask: action.findTask,
     },
 )(TaskFilter);
 
