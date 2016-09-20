@@ -17,7 +17,7 @@ export default function createStore() {
 
     const createStoreWithMiddleware = compose(
         middleware,
-        reduxReactRouter({ createHistory: createHistoryCustom })
+        reduxReactRouter({ createHistory: createHistoryCustom }),
     );
 
     const _store = createStoreWithMiddleware(_createStore)(rootReducer);

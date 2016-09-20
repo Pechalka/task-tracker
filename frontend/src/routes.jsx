@@ -13,6 +13,7 @@ import TaskAdd from 'containers/TaskAdd/';
 import TaskDetails from 'containers/TaskDetails';
 
 import App from 'components/Layouts/App';
+import Test from 'containers/Test/';
 
 module.exports = ({ dispatch, getState }) => (
     <div>
@@ -29,6 +30,7 @@ module.exports = ({ dispatch, getState }) => (
                     <Route component={UsersList} path='users' />
                 </Route>
                 <Route component={Login} path='login' />
+                <Route component={Test} path='test' />
                 <Route path='*' component={NoMatch} />
             </Route>
         </Router>

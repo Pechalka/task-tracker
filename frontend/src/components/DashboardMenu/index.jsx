@@ -10,7 +10,7 @@ const DashboardMenu = ({
 }) => (
     <Navbar>
         <NavBrand>
-            <Link to='/'>Task-tracker</Link>
+            <Link to='/test'>Task-tracker</Link>
         </NavBrand>
         <Nav>
             <NavItem eventKey={2} onClick={addProject}>add project</NavItem>

@@ -8,6 +8,7 @@ import { reducer as tasks } from './tasks';
 import { reducer as users } from './users';
 import { reducer as comments } from './comments';
 import { reducer as taskFilter } from './taskFilter';
+import { reducer as uiReducer } from 'redux-ui';
 
 export default combineReducers({
     taskFilter,
@@ -18,4 +19,5 @@ export default combineReducers({
     auth,
     router: routerStateReducer,
     form: formReducer,
+    ui: uiReducer,
 });
