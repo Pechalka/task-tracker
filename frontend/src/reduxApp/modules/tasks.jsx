@@ -6,13 +6,16 @@ const initState = {
     versions: [],
     page: 1,
     items: 0,
+
+    sortField: 'createAt',
+    sortDirection: 'desc',
 };
 
 export function reducer(state = initState, action) {
     switch (action.type) {
         case 'SET_TASKS': {
             const { count, items } = action.payload;
-            return { ...state, tasks: items, items: Math.ceil(count / 10) };
+            return { ...state, tasks: items, items: Math.ceil(count / 5) };
         }
 
         case 'SET_TASK':
@@ -26,6 +29,17 @@ export function reducer(state = initState, action) {
 
         case 'ADD_VERSION':
             return { ...state, versions: state.versions.concat([action.payload]) };
+
+        case 'TOGGLE_SORT':{
+            const sortField = action.payload;
+            let sortDirection;
+            if (sortField === state.sortField) {
+                sortDirection = state.sortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                sortDirection = 'desc';
+            }
+            return { ...state, sortField, sortDirection };
+        }
 
         default:
             return state;
@@ -54,17 +68,100 @@ const toParams = (obj) => Object.keys(obj)
     .map(key => `${key}=${obj[key]}`)
     .join('&');
 
+import LocalStorageApi from 'utils/LocalStorageApi';
+
+const defaultTasks = [
+    {
+        id: 1,
+        status: 'new',
+        title: 'task1',
+        assigneeName: 'vasa',
+        version: 'V1',
+        createAt: new Date(2016, 5, 2),
+    },
+    {
+        id: 2,
+        status: 'new',
+        title: 'task2',
+        assigneeName: 'peta',
+        version: 'V1',
+        createAt: new Date(2016, 5, 11),
+    },
+    {
+        id: 3,
+        status: 'new',
+        title: 'task3',
+        assigneeName: 'Afona',
+        version: 'V1',
+        createAt: new Date(2016, 5, 1),
+    },
+    {
+        id: 4,
+        status: 'new',
+        title: 'task4',
+        assigneeName: 'gala',
+        version: 'V1',
+        createAt: new Date(2016, 5, 7),
+    },
+    {
+        id: 5,
+        status: 'new',
+        title: 'task5',
+        assigneeName: 'vasa',
+        version: 'V1',
+        createAt: new Date(2016, 5, 4),
+    },
+    {
+        id: 6,
+        status: 'new',
+        title: 'task6',
+        assigneeName: 'Zooro',
+        version: 'V1',
+        createAt: new Date(2016, 5, 5),
+    },
+    {
+        id: 7,
+        status: 'new',
+        title: 'task7',
+        assigneeName: 'vasa',
+        version: 'V1',
+        createAt: new Date(2016, 5, 1),
+    },
+];
+
+const tasksApi = new LocalStorageApi('/api/tasks', defaultTasks);
+
 // TODO: page leavel loadTasks(params)
 export function loadTasks() {
     return (dispatch, getState) => {
-        const { userId, status } = getState().taskFilter;
-        const paramsStr = toParams({
-            assignee: userId,
-            status,
-        });
-        const page = getState().tasks.page - 1;
-        return http.get(`/api/tasks/page/${page}/5?${paramsStr}`)
+        // const { userId, status } = getState().taskFilter;
+        // const paramsStr = toParams({
+        //     assignee: userId,
+        //     status,
+        // });
+        // const page = getState().tasks.page - 1;
+        // return http.get(`/api/tasks/page/${page}/5?${paramsStr}`)
+        //     .then(({ items, count }) => dispatch(setTasks({ items, count })));
+
+        const page = getState().tasks.page;
+        const sortField = getState().tasks.sortField;
+        const sortDirection = getState().tasks.sortDirection;
+
+        return tasksApi.getPage(null, {
+            field: sortField,
+            direction: sortDirection,
+        }, page, 5)
             .then(({ items, count }) => dispatch(setTasks({ items, count })));
+    };
+}
+
+export function toggleSort(field) {
+    return (dispatch) => {
+        dispatch({
+            type: 'TOGGLE_SORT',
+            payload: field,
+        });
+        dispatch(loadTasks());
     };
 }
 

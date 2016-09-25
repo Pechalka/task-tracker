@@ -2,14 +2,35 @@ import React, { PropTypes } from 'react';
 import { Table } from 'react-bootstrap';
 import { Link } from 'react-router';
 
-const TaskTable = ({ tasks, projectId }) => (
+import './index.scss';
+
+import cx from 'classnames';
+
+const SortableTh = ({ children, active, asc, onClick }) => (
+    <th className={cx('sortabel')} onClick={onClick}>
+        <span>{children}</span>
+        {active && <span>{asc ? '(asc)' : '(dest)'}</span>}
+    </th>
+);
+
+
+const TaskTable = ({ tasks, projectId, toggleSort, sortField, sortDirection }) => (
     <Table>
         <thead>
           <tr>
             <th>Title</th>
             <th>Status</th>
-            <th>Assignee</th>
+            <SortableTh
+              active={sortField === 'assigneeName'}
+              asc={sortDirection === 'asc'}
+              onClick={() => toggleSort('assigneeName')}
+            >Assignee</SortableTh>
             <th>Version</th>
+            <SortableTh
+              active={sortField === 'createAt'}
+              asc={sortDirection === 'asc'}
+              onClick={() => toggleSort('createAt')}
+            >createAt</SortableTh>
           </tr>
         </thead>
         <tbody>
@@ -27,6 +48,9 @@ const TaskTable = ({ tasks, projectId }) => (
                     <td>
                         {task.version}
                     </td>
+                    <td>
+                        {task.createAt}
+                    </td>
                 </tr>
             ))}
         </tbody>
@@ -36,6 +60,7 @@ const TaskTable = ({ tasks, projectId }) => (
 TaskTable.propTypes = {
     tasks: PropTypes.array,
     projectId: PropTypes.string,
+    toggleSort: PropTypes.func,
 };
 
 export default TaskTable;
