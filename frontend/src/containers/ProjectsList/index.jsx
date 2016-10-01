@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ProjectsList from './ProjectsList';
+import ProjectsList from './ProjectsList/';
 import AddProjectModal from './AddProjectModal';
 
 import DashboardMenu from 'containers/Application/DashboardMenu';
@@ -16,7 +16,6 @@ const ProjectsListPage = () => (
 );
 
 import loading from 'containers/Application/loading';
-import { loadProducts } from 'reduxApp/modules/projects';
-import { fetchUsers } from 'reduxApp/modules/users';
+import { showPage } from './state';
 
-export default loading([loadProducts, fetchUsers])(ProjectsListPage);
+export default loading([showPage])(ProjectsListPage);

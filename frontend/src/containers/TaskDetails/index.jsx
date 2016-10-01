@@ -1,8 +1,8 @@
 import React from 'react';
 
-import TaskInfo from './TaskInfo';
-import AddComentForm from './AddComentForm';
-import CommentsList from './CommentsList';
+import TaskInfo from './TaskInfo/';
+import AddComentForm from './AddComentForm/';
+import CommentsList from './CommentsList/';
 
 const TaskDetails = () => (
     <div>
@@ -13,7 +13,6 @@ const TaskDetails = () => (
 );
 
 import loading from 'containers/Application/loading';
-import { loadTask } from 'reduxApp/modules/tasks';
-import { loadComments } from 'reduxApp/modules/comments';
+import { showPage } from './state';
 
-export default loading([loadTask, loadComments])(TaskDetails);
+export default loading([showPage])(TaskDetails);

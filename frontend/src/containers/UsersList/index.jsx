@@ -1,6 +1,6 @@
 import React from 'react';
 
-import UsersTable from './UsersTable';
+import UsersTable from './UsersTable/';
 import Main from 'components/Layouts/Main';
 import DashboardMenu from 'containers/Application/DashboardMenu';
 
@@ -11,5 +11,4 @@ const UsersList = () => (
 );
 
 import loading from 'containers/Application/loading';
-import { fetchUsers } from 'reduxApp/modules/users';
-export default loading(fetchUsers)(UsersList);
+export default loading([])(UsersList);

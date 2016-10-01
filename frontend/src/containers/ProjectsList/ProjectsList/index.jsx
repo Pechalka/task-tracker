@@ -27,7 +27,7 @@ const ProductItem = ({ product, removeProject }) => {
     );
 };
 
-const ProjectsList = ({ openPopup, projects, removeProject }) => (
+const ProjectsList = ({ projects, removeProject }) => (
     <ListGroup>
         <ListGroupItem>
             <div className='clearfix'>
@@ -49,4 +49,15 @@ const ProjectsList = ({ openPopup, projects, removeProject }) => (
     </ListGroup>
 );
 
-export default ProjectsList;
+import { connect } from 'react-redux';
+
+import {
+    removeProject,
+} from '../state';
+
+export default connect(
+    state => ({
+        projects: state.projectsList.projects,
+    }),
+    { removeProject }
+)(ProjectsList);

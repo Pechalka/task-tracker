@@ -1,7 +1,10 @@
+
+import { connect } from 'react-redux';
+
 import React, { PropTypes } from 'react';
 import { Button } from 'react-bootstrap';
 
-const CommentsList = ({ comments, removeComent }) => (
+const CommentsList = ({ comments, deleteComment }) => (
     <div>
         {comments.map(comment => (
             <div key={comment.id}>
@@ -10,7 +13,7 @@ const CommentsList = ({ comments, removeComent }) => (
                     <Button
                       bsStyle='link'
                       bsSize='xsmall'
-                      onClick={() => removeComent(comment)}
+                      onClick={() => deleteComment(comment)}
                     >remove</Button>
                 </h4>
 
@@ -23,7 +26,14 @@ const CommentsList = ({ comments, removeComent }) => (
 
 CommentsList.propTypes = {
     comments: PropTypes.array,
-    removeComent: PropTypes.func,
+    deleteComment: PropTypes.func,
 };
 
-export default CommentsList;
+import { deleteComment } from '../state';
+
+export default connect(
+    state => ({
+        comments: state.tasksDetails.comments,
+    }),
+    { deleteComment }
+)(CommentsList);

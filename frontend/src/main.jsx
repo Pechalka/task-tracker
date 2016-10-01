@@ -20,12 +20,16 @@ Root.propTypes = {
     store: PropTypes.object.isRequired,
 };
 
+import { appStart } from 'reduxApp/modules/app';
+
 window.onload = () => {
     const root = document.getElementById('app');
     try {
+        const store = createStore();
         render((
-            <Root store={createStore()} />
+            <Root store={store} />
         ), root);
+        store.dispatch(appStart());
     } catch (e) {
         const RedBox = require('redbox-react').default;
         render(<RedBox error={e} />, root);

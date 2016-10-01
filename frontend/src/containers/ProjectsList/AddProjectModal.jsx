@@ -9,7 +9,7 @@ import {
 const AddProjectModal = connect(
     state => ({
         show: state.projects.popupOpen,
-        users: state.users.users,
+        users: state.app.users,
     }),
     { onHide: closePopup, addProject }
 )(AddProjectModalComponent);
