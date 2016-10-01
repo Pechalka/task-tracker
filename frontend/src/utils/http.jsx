@@ -2,6 +2,10 @@
 
 var $ = require('jquery');
 
+const toParams = (obj) => Object.keys(obj)
+    .filter(key => !!obj[key])
+    .map(key => `${key}=${obj[key]}`)
+    .join('&');
 
 
 var get = function(url, data){
@@ -36,5 +40,6 @@ var del = function(url){
 module.exports = {
 	get : get,
 	post : post,
-	del : del
+	del : del,
+    toParams,
 }

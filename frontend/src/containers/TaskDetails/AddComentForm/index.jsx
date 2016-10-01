@@ -1,3 +1,6 @@
+
+import { connect } from 'react-redux';
+
 import React, { Component, PropTypes } from 'react';
 import { Button, Input } from 'react-bootstrap';
 
@@ -35,5 +38,9 @@ class AddComentForm extends Component {
     }
 }
 
+import { addComment } from '../state';
 
-export default AddComentForm;
+export default connect(
+    null,
+    { addComment }
+)(AddComentForm);
