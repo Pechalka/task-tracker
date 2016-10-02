@@ -1,3 +1,6 @@
+
+import { connect } from 'react-redux';
+
 import React, { PropTypes } from 'react';
 
 import { Button, Input } from 'react-bootstrap';
@@ -36,6 +39,10 @@ LoginForm.propTypes = {
     login: PropTypes.func,
 };
 
-export {
-  LoginForm,
-};
+
+import { login } from 'reduxApp/modules/auth';
+
+export default connect(
+    null,
+    { login }
+)(LoginForm);

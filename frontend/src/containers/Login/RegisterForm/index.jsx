@@ -1,3 +1,7 @@
+
+import { connect } from 'react-redux';
+import { registr } from 'reduxApp/modules/auth';
+
 import React, { Component, PropTypes } from 'react';
 
 import { Button, Input } from 'react-bootstrap';
@@ -28,7 +32,7 @@ class RegisterForm extends Component {
     }
 }
 
-
-export {
-  RegisterForm,
-};
+export default connect(
+    null,
+    { registr }
+)(RegisterForm);

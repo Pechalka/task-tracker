@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TasksMenu from 'containers/Application/TasksMenu';
+import TasksMenu from './TasksMenu';
 import Main from 'components/Layouts/Main';
 
 const TasksLayout = ({ children }) => (

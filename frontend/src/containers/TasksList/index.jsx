@@ -14,7 +14,7 @@ const TaskList = () => (
     </div>
 );
 
-import loading from 'containers/Application/loading';
+import loading from 'HOC/loading';
 
 import { showPage } from './state';
 

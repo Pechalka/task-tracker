@@ -4,10 +4,11 @@ import { Router, Route, IndexRoute } from 'react-router';
 
 import Login from 'containers/Login/';
 import ProjectsList from 'containers/ProjectsList/';
-import { requireAuthentication } from 'containers/Application/AuthenticatedComponent';
+import { requireAuthentication } from 'HOC/AuthenticatedComponent';
 import UsersList from 'containers/UsersList/';
 import NoMatch from 'containers/NoMatch/';
-import TasksLayout from 'containers/Application/TasksLayout';
+import TasksLayout from 'containers/Application/TasksLayout/';
+import DashboardLayout from 'containers/Application/DashboardLayout/';
 import TasksList from 'containers/TasksList/';
 import TaskAdd from 'containers/TaskAdd/';
 import TaskDetails from 'containers/TaskDetails';
@@ -19,14 +20,16 @@ module.exports = ({ dispatch, getState }) => (
         <Router>
             <Route path='/' >
                 <Route component={requireAuthentication(App)}>
-                    <IndexRoute component={ProjectsList} />
-                    <Route component={ProjectsList} path='projects' />
                     <Route component={TasksLayout} path='projects/:projectId/'>
                         <Route component={TasksList} path='tasks' />
                         <Route component={TaskAdd} path='tasks/add' />
                         <Route component={TaskDetails} path='tasks/:id' />
                     </Route>
-                    <Route component={UsersList} path='users' />
+                    <Route component={DashboardLayout}>
+                        <IndexRoute component={ProjectsList} />
+                        <Route component={ProjectsList} path='projects' />
+                        <Route component={UsersList} path='users' />
+                    </Route>
                 </Route>
                 <Route component={Login} path='login' />
                 <Route path='*' component={NoMatch} />

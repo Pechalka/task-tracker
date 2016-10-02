@@ -17,7 +17,7 @@ class TaskAddForm extends Component {
         const title = this.refs.input.getValue();
         const description = this.refs.description.getValue();
         const { status, assignee, version } = this.state;
-        const assigneeUser = users.find(user => user.id === assignee);
+        const assigneeUser = users.find(user => user.value === assignee);
 
         addTask({
             title,
@@ -25,19 +25,12 @@ class TaskAddForm extends Component {
             status,
             assignee,
             version,
-            assigneeName: assigneeUser.name,
+            assigneeName: assigneeUser.label,
         });
     }
 
     render() {
         const { statuses, users, addVersion, versions } = this.props;
-        const options = statuses.map(status => (
-            { value: status, label: status }
-        ));
-
-        const allUsers = users.map(user => (
-            { value: user.id, label: user.name })
-        );
 
         const allVersion = versions.map(version => ({ value: version.title, label: version.title }));
 
@@ -52,7 +45,7 @@ class TaskAddForm extends Component {
                       searchable={false}
                       clearable={false}
                       placeholder='-'
-                      options={options}
+                      options={statuses}
                     />
                 </div>
                 <div className='form-group task-add-from__user-select'>
@@ -61,7 +54,7 @@ class TaskAddForm extends Component {
                       value={this.state.assignee}
                       onChange={assignee => this.setState({ assignee })}
                       placeholder='-'
-                      options={allUsers}
+                      options={users}
                     />
                 </div>
                 <div className='form-group'>
@@ -91,4 +84,21 @@ class TaskAddForm extends Component {
     }
 }
 
-export default TaskAddForm;
+
+import { connect } from 'react-redux';
+import { addTask, addVersion } from '../state';
+
+
+import {
+    getStatusesOptions,
+    getUserOptions,
+} from 'reduxApp/modules/app';
+
+export default connect(
+    state => ({
+        statuses: getStatusesOptions(state),
+        users: getUserOptions(state),
+        versions: state.tasksAdd.versions,
+        assignee: state.auth.user ? state.auth.user.id : null,
+    })
+, { addTask, addVersion })(TaskAddForm);
