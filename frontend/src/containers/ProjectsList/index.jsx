@@ -1,21 +1,16 @@
 import React from 'react';
 
 import ProjectsList from './ProjectsList/';
-import AddProjectModal from './AddProjectModal';
-
-import DashboardMenu from 'containers/Application/DashboardMenu';
-import Main from 'components/Layouts/Main';
+import AddProjectModal from './AddProjectModal/';
 
 const ProjectsListPage = () => (
-    <Main
-      header={<DashboardMenu />}
-    >
+    <div>
         <ProjectsList />
         <AddProjectModal />
-    </Main>
+    </div>
 );
 
-import loading from 'containers/Application/loading';
+import loading from 'HOC/loading';
 import { showPage } from './state';
 
 export default loading([showPage])(ProjectsListPage);

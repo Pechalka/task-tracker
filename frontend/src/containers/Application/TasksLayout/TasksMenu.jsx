@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router';
 import { Navbar, NavBrand, Nav, NavItem } from 'react-bootstrap';
@@ -28,4 +29,14 @@ const TasksMenu = ({
     </Navbar>
 );
 
-export default TasksMenu;
+import { connect } from 'react-redux';
+import { logout } from 'reduxApp/modules/auth';
+
+
+export default connect(
+    state => ({
+        projectId: state.router.params.projectId,
+        router: state.router,
+    }),
+    { logout }
+)(TasksMenu);;

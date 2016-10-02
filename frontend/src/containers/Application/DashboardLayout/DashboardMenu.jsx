@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router';
 import { Navbar, NavBrand, Nav, NavItem } from 'react-bootstrap';
@@ -24,4 +25,12 @@ const DashboardMenu = ({
     </Navbar>
 );
 
-export default DashboardMenu;
+import { connect } from 'react-redux';
+
+import { showAddProject } from 'reduxApp/modules/app';
+import { logout } from 'reduxApp/modules/auth';
+
+export default connect(
+    null,
+    { addProject: showAddProject, logout }
+)(DashboardMenu);

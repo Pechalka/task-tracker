@@ -15,7 +15,8 @@ export function reducer(state = initState, action) {
 }
 
 import http from 'utils/http';
-
+import { push } from 'redux-router';
+import { openPopup } from 'containers/ProjectsList/state';
 
 const setUsers = (users) => ({ type: 'SET_USERS', payload: users });
 
@@ -31,3 +32,7 @@ export const getUserOptions = (state) =>
 
 export const appStart = () => (dispatch) => dispatch(loadUsers());
 
+export const showAddProject = () => (dispatch) => {
+    dispatch(push('/'));
+    dispatch(openPopup());
+};

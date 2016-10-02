@@ -61,5 +61,19 @@ const AddProjectModal = React.createClass({
     },
 });
 
-export default AddProjectModal;
 
+import { connect } from 'react-redux';
+
+
+import {
+    closePopup, addProject,
+} from '../state';
+
+
+export default connect(
+    state => ({
+        show: state.projectsList.popupOpen,
+        users: state.app.users,
+    }),
+    { onHide: closePopup, addProject }
+)(AddProjectModal);

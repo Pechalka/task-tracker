@@ -1,14 +1,12 @@
 import React from 'react';
 
 import UsersTable from './UsersTable/';
-import Main from 'components/Layouts/Main';
-import DashboardMenu from 'containers/Application/DashboardMenu';
 
 const UsersList = () => (
-    <Main header={<DashboardMenu />}>
+    <div>
         <UsersTable />
-    </Main>
+    </div>
 );
 
-import loading from 'containers/Application/loading';
+import loading from 'HOC/loading';
 export default loading([])(UsersList);

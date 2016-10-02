@@ -1,5 +1,5 @@
 import React from 'react';
-import TaskAddForm from './TaskAddForm';
+import TaskAddForm from './TaskAddForm/';
 
 const TaskAdd = () => (
     <div>
@@ -7,8 +7,7 @@ const TaskAdd = () => (
     </div>
 );
 
-import loading from 'containers/Application/loading';
-import { loadVersions } from 'reduxApp/modules/tasks';
-import { fetchUsers } from 'reduxApp/modules/users';
+import loading from 'HOC/loading';
+import { showPage } from './state';
 
-export default loading([loadVersions, fetchUsers])(TaskAdd);
+export default loading([showPage])(TaskAdd);
