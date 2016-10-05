@@ -6,7 +6,7 @@ const initState = {
 
 export function reducer(state = initState, action) {
     switch (action.type) {
-        case 'SET_USERS':
+        case 'LOAD_USERS_SUCCESS':
             return { ...state, users: action.payload };
 
         default:
@@ -14,15 +14,17 @@ export function reducer(state = initState, action) {
     }
 }
 
-import http from 'utils/http';
 import { push } from 'redux-router';
 import { openPopup } from 'containers/ProjectsList/state';
 
-const setUsers = (users) => ({ type: 'SET_USERS', payload: users });
+const getAllUsers = () => ({
+    type: 'LOAD_USERS',
+    payload: {
+        request: '/api/users',
+    },
+});
 
-export const loadUsers = () => (dispatch) =>
-    http.get('/api/users')
-        .then(users => dispatch(setUsers(users)));
+export const loadUsers = () => (dispatch) => dispatch(getAllUsers());
 
 export const getStatusesOptions = (state) =>
     state.app.statuses.map(str => ({ value: str, label: str }));

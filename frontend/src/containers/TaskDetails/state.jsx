@@ -6,34 +6,67 @@ const initState = {
 
 export const reducer = (state = initState, action) => {
     switch (action.type) {
-        case 'SET_COMMENTS':
-            return { ...state, comments: action.payload };
-        case 'SET_TASK':
+        case 'LOAD_COMMENTS_SUCCESS':
+            return { ...state, comments: action.payload.items };
+        case 'LOAD_TASK_SUCCESS':
             return { ...state, task: action.payload };
         default:
             return state;
     }
 };
 
-import http from 'utils/http';
 import { push } from 'redux-router';
 
-const setComments = (comments) => ({ type: 'SET_COMMENTS', payload: comments });
-const setTask = (task) => ({ type: 'SET_TASK', payload: task });
+const loadComments = (id) => ({
+    type: 'LOAD_COMMENTS',
+    payload: {
+        request: `/api/tasks/${id}/comments/page/0/5`,
+    },
+});
 
-const loadComments = (id) => (dispatch) =>
-    http.get(`/api/tasks/${id}/comments/page/0/5`)
-        .then(json => dispatch(setComments(json.items)));
+const loadTask = (id) => ({
+    type: 'LOAD_TASK',
+    payload: {
+        request: `/api/tasks/${id}`,
+    },
+});
 
-const loadTask = (id) => (dispatch) =>
-    http.get(`/api/tasks/${id}`)
-        .then(json => dispatch(setTask(json)));
+const deleteTaskApiCall = (id) => ({
+    type: 'DELETE_TASK',
+    payload: {
+        request: {
+            url: `/api/tasks/${id}`,
+            method: 'delete',
+        },
+    },
+});
+
+const deleteCommentApiCall = (taskId, commentId) => ({
+    type: 'DEELTE_COMMENT',
+    payload: {
+        request: {
+            url: `/api/tasks/${taskId}/comments/${commentId}`,
+            method: 'delete',
+        },
+    },
+});
+
+const addCommentApiCall = (taskId, data) => ({
+    type: 'ADD_COMMENT',
+    payload: {
+        request: {
+            url: `/api/tasks/${taskId}/comments`,
+            method: 'post',
+            data,
+        },
+    },
+});
 
 // PUBLICK
-
 export const deleteTask = () => (dispatch, getState) => {
     const { router: { params: { id, projectId } } } = getState();
-    return http.del(`/api/tasks/${id}`).then(() => dispatch(push(`/projects/${projectId}/tasks`)));
+    return dispatch(deleteTaskApiCall(id))
+        .then(() => dispatch(push(`/projects/${projectId}/tasks`)));
 };
 
 export const addComment = (text) => (dispatch, getState) => {
@@ -41,13 +74,14 @@ export const addComment = (text) => (dispatch, getState) => {
         auth: { user: { name } },
         router: { params: { id } },
     } = getState();
-    return http.post(`/api/tasks/${id}/comments`, { text, userName: name })
+
+    return dispatch(addCommentApiCall(id, { text, userName: name }))
         .then(() => dispatch(loadComments(id)));
 };
 
 export const deleteComment = (comment) => (dispatch, getState) => {
     const { router: { params: { id } } } = getState();
-    return http.del(`/api/tasks/${id}/comments/${comment.id}`)
+    return dispatch(deleteCommentApiCall(id, comment.id))
         .then(() => dispatch(loadComments(id)));
 };
 
