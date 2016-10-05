@@ -10,6 +10,7 @@ const initState = {
 
 export function reducer(state = initState, action) {
     switch (action.type) {
+
         case 'CHANGE_USER_ID':
             return { ...state, userId: action.payload };
         case 'CHANGE_STATUS':
@@ -17,7 +18,7 @@ export function reducer(state = initState, action) {
         case 'SET_PAGE':
             return { ...state, page: action.payload };
 
-        case 'SET_TASKS': {
+        case 'LOAD_TASKS_SUCCESS': {
             const { count, items } = action.payload;
             return { ...state, tasks: items, items: Math.ceil(count / 10) };
         }
@@ -27,9 +28,7 @@ export function reducer(state = initState, action) {
     }
 }
 
-import http, { toParams } from 'utils/http';
-
-const setTasks = (payload) => ({ type: 'SET_TASKS', payload });
+import { toParams } from 'utils/http';
 
 const loadTasks = () => (dispatch, getState) => {
     const {
@@ -44,8 +43,13 @@ const loadTasks = () => (dispatch, getState) => {
         assignee: userId,
         status,
     });
-    return http.get(`/api/tasks/page/${page}/5?${query}`)
-        .then(payload => dispatch(setTasks(payload)));
+
+    return dispatch({
+        type: 'LOAD_TASKS',
+        payload: {
+            request: `/api/tasks/page/${page}/5?${query}`,
+        },
+    });
 };
 
 const setPage = (page) => ({ type: 'SET_PAGE', payload: page });

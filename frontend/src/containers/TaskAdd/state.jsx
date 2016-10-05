@@ -5,7 +5,7 @@ const initState = {
 
 export const reducer = (state = initState, action) => {
     switch (action.type) {
-        case 'SET_VERSIONS':
+        case 'LOAD_VERSIONS_SUCCESS':
             return { ...state, versions: action.payload };
 
         default:
@@ -13,19 +13,46 @@ export const reducer = (state = initState, action) => {
     }
 };
 
-import http from 'utils/http';
 import { push } from 'redux-router';
 
-export const showPage = () => (dispatch) => http.get('/api/version')
-            .then(data => dispatch({ type: 'SET_VERSIONS', payload: data }));
+const getAllVersions = () => ({
+    type: 'LOAD_VERSIONS',
+    payload: {
+        request: '/api/version',
+    },
+});
+
+const createVersion = (data) => ({
+    type: 'CREATE_VERSION',
+    payload: {
+        request: {
+            url: '/api/version',
+            method: 'post',
+            data,
+        },
+    },
+});
+
+const createTask = (data) => ({
+    type: 'CREATE_TASK',
+    payload: {
+        request: {
+            url: '/api/tasks',
+            method: 'post',
+            data,
+        },
+    },
+});
+
+export const showPage = () => (dispatch) => dispatch(getAllVersions());
 
 
 export function addVersion() {
     return (dispatch) => {
         const title = prompt('Create new Version', '');
         if (title) {
-            http.post('/api/version', { title })
-                .then(newVersion => dispatch({ type: 'ADD_VERSION', payload: newVersion }));
+            dispatch(createVersion({ title }))
+                .then(() => dispatch(getAllVersions()));
         }
     };
 }
@@ -33,6 +60,6 @@ export function addVersion() {
 export function addTask(form) {
     return (dispatch, getState) => {
         const { router: { params: { projectId } } } = getState();
-        http.post('/api/tasks', form).then(() => dispatch(push(`/projects/${projectId}/tasks`)));
+        dispatch(createTask(form)).then(() => dispatch(push(`/projects/${projectId}/tasks`)));
     };
 }

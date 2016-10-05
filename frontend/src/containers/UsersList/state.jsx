@@ -1,6 +1,15 @@
 
-import http from 'utils/http';
+const deleteUser = (id) => ({
+    type: 'DELETE_USER',
+    payload: {
+        request: {
+            url: `/api/users/${id}`,
+            method: 'delete',
+        },
+    },
+});
+
 import { loadUsers } from 'reduxApp/modules/app';
 
 export const removeUser = ({ id }) => (dispatch) =>
-    http.del(`/api/users/${id}`).then(dispatch(loadUsers()));
+    dispatch(deleteUser(id)).then(dispatch(loadUsers()));

@@ -18,8 +18,6 @@ export function reducer(state = initState, action) {
     }
 }
 
-import http from 'utils/http';
-
 import { push } from 'redux-router';
 
 
@@ -30,36 +28,47 @@ export function startSession(payload) {
     };
 }
 
-export function logout() {
-    return (dispatch) => {
-        http.del('/api/session').then(() => {
-            dispatch({ type: 'LOGOUT' });
-            dispatch(push('/login'));
-        });
-    };
-}
-
-export function login(form) {
-    return (dispatch) => http.post('/api/login', form)
-        .then(user => {
-            dispatch(startSession(user));
-            dispatch(push('/'));
-        });
-}
-
-export function registr(form) {
-    return (dispatch) => http.post('/api/users', form)
-        .then(user => {
-            dispatch(login(form));
-        });
-}
+export const logout = () => dispatch =>
+    dispatch({
+        types: ['LOGOUT', 'LOGOUT'],
+        payload: {
+            request: {
+                url: '/api/session',
+                mehtod: 'delete',
+            },
+        },
+    }).then(() => dispatch(push('/login')));
 
 
-export function checkAuth() {
-    return (dispatch) => {
-        http.get('/api/session')
-            .then(user => dispatch(startSession(user)))
-            .fail(() => dispatch(logout()));
-    };
-}
-// TODO
+export const login = (form) => (dispatch) =>
+    dispatch({
+        types: ['START_SESSION', 'LOGIN_FAIL'],
+        payload: {
+            request: {
+                url: '/api/login',
+                method: 'post',
+                data: form,
+            },
+        },
+    }).then(() => dispatch(push('/')));
+
+
+export const registr = (form) => dispatch =>
+    dispatch({
+        type: 'REGISTR',
+        payload: {
+            request: {
+                url: '/api/users',
+                method: 'post',
+            },
+        },
+    }).then(data => dispatch(login(data)));
+
+
+export const checkAuth = () => ({
+    types: ['START_SESSION', 'LOGOUT'],
+    payload: {
+        request: '/api/session',
+    },
+});
+
