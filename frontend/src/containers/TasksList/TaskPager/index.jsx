@@ -1,8 +1,7 @@
-import { connect } from 'react-redux';
 import React, { PropTypes } from 'react';
 import { Pagination } from 'react-bootstrap';
 
-const TaskPager = (props) => (
+export const TaskPager = (props) => (
     <div className='text-center'>
         {props.items > 1 && <Pagination
           bsSize='small'
@@ -18,14 +17,3 @@ TaskPager.propTypes = {
     onSelect: PropTypes.func,
 };
 
-import { changePage } from '../state';
-
-export default connect(
-    state => ({
-        items: state.tasksList.items,
-        activePage: state.tasksList.page,
-    }),
-    {
-        onSelect: changePage,
-    }
-)(TaskPager);

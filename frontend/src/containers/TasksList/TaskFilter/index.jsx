@@ -1,21 +1,24 @@
-import { connect } from 'react-redux';
 
 import React from 'react';
 
 import { Button, Grid, Col, Row } from 'react-bootstrap';
 
-import UserSelect from './UserSelect';
-import StatusSelect from './StatusSelect';
+import { UserSelect } from './UserSelect';
+import { StatusSelect } from './StatusSelect';
 
-const TaskFilter = ({ makeSearch }) => (
+export const TaskFilter = ({
+    makeSearch,
+    users, userId, changeUserId,
+    statuses, status, changeStatus,
+}) => (
     <div>
         <Grid style={{ padding: 0 }} fluid={true}>
             <Row>
                 <Col xs={3}>
-                    <StatusSelect />
+                    <StatusSelect statuses={statuses} status={status} changeStatus={changeStatus} />
                 </Col>
                 <Col xs={3} xsOffset={2}>
-                    <UserSelect />
+                    <UserSelect users={users} userId={userId} changeUserId={changeUserId} />
                 </Col>
             </Row>
         </Grid>
@@ -25,15 +28,4 @@ const TaskFilter = ({ makeSearch }) => (
     </div>
 );
 
-
-import {
-    makeSearch,
-} from '../state';
-
-export default connect(
-    null,
-    {
-        makeSearch,
-    },
-)(TaskFilter);
 

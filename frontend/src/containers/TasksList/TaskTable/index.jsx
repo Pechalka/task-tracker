@@ -2,7 +2,9 @@ import React, { PropTypes } from 'react';
 import { Table } from 'react-bootstrap';
 import { Link } from 'react-router';
 
-const TaskTable = ({ tasks, projectId }) => (
+import { observer } from 'mobx-react';
+
+export const TaskTable = observer(({ tasks, projectId }) => (
     <Table>
         <thead>
           <tr>
@@ -31,17 +33,10 @@ const TaskTable = ({ tasks, projectId }) => (
             ))}
         </tbody>
     </Table>
-);
+));
 
 TaskTable.propTypes = {
     tasks: PropTypes.array,
     projectId: PropTypes.string,
 };
 
-import { connect } from 'react-redux';
-export default connect(
-    state => ({
-        tasks: state.tasksList.tasks,
-        projectId: state.router.params.projectId,
-    })
-)(TaskTable);

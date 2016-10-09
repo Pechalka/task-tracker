@@ -1,74 +1,56 @@
 
-const initState = {
-    userId: null,
-    status: 'new',
-
-    tasks: [],
-    page: 1,
-    items: 0,
-};
-
-export function reducer(state = initState, action) {
-    switch (action.type) {
-
-        case 'CHANGE_USER_ID':
-            return { ...state, userId: action.payload };
-        case 'CHANGE_STATUS':
-            return { ...state, status: action.payload };
-        case 'SET_PAGE':
-            return { ...state, page: action.payload };
-
-        case 'LOAD_TASKS_SUCCESS': {
-            const { count, items } = action.payload;
-            return { ...state, tasks: items, items: Math.ceil(count / 10) };
-        }
-
-        default:
-            return state;
-    }
-}
-
-
 const toParams = (obj) => Object.keys(obj)
     .filter(key => !!obj[key])
     .map(key => `${key}=${obj[key]}`)
     .join('&');
 
 
-const loadTasks = () => (dispatch, getState) => {
-    const {
-        tasksList: {
+import axios from 'axios';
+import { observable } from 'mobx';
+
+class Store {
+    @observable userId = null;
+    @observable status = 'new';
+
+    @observable tasks = [];
+    @observable page = 1;
+    @observable items = 0;
+
+    showPage = () => {
+        const {
+            page,
             userId,
             status,
-            page,
-        },
-//        router: { params: { projectId } },
-    } = getState();
-    const query = toParams({
-        assignee: userId,
-        status,
-    });
+        } = this;
 
-    return dispatch({
-        type: 'LOAD_TASKS',
-        payload: {
-            request: `/api/tasks/page/${page}/5?${query}`,
-        },
-    });
-};
+        const query = toParams({
+            assignee: userId,
+            status,
+        });
+        return axios.get(`/api/tasks/page/${page}/5?${query}`).then(response => {
+            const { items, count } = response.data;
+            this.tasks.replace(items);
+            this.items = Math.ceil(count / 10);
+        });
+    }
 
-const setPage = (page) => ({ type: 'SET_PAGE', payload: page });
+    onSelect = (page) => {
+        this.page = page;
+        this.showPage();
+    }
 
-// PUBLIC
+    makeSearch = () => {
+        this.showPage();
+    }
 
-export const changeUserId = (id) => ({ type: 'CHANGE_USER_ID', payload: id });
-export const changeStatus = (status) => ({ type: 'CHANGE_STATUS', payload: status });
+    changeUserId = (userId) => {
+        this.userId = userId;
+    }
 
-export const changePage = (page) => (dispatch) => {
-    dispatch(setPage(page));
-    return dispatch(loadTasks());
-};
+    changeStatus = (status) => {
+        this.status = status;
+    }
+}
 
-export const makeSearch = () => (dispatch) => dispatch(loadTasks());
-export const showPage = () => (dispatch) => dispatch(loadTasks());
+export default Store;
 
