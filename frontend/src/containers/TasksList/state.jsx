@@ -28,7 +28,12 @@ export function reducer(state = initState, action) {
     }
 }
 
-import { toParams } from 'utils/http';
+
+const toParams = (obj) => Object.keys(obj)
+    .filter(key => !!obj[key])
+    .map(key => `${key}=${obj[key]}`)
+    .join('&');
+
 
 const loadTasks = () => (dispatch, getState) => {
     const {

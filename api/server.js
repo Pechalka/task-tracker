@@ -46,6 +46,11 @@ ORM.init(app, function(e){
 	app.use('/api/users', ORM.REST('users'))
 	app.use('/api/version', ORM.REST('version'))
 
+	app.get('/api/test', function(req, res){
+		setTimeout(function(){
+			res.json({ title: 'test' });
+		}, 4000);
+	})
 
 	// html5 history api
 	app.use(fallback('index.html', { root: root }))
