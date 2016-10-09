@@ -40,6 +40,7 @@ class Store {
     }
 
     makeSearch = () => {
+        this.page = 1;
         this.showPage();
     }
 
