@@ -12,6 +12,7 @@ import DashboardLayout from 'containers/Application/DashboardLayout/';
 import TasksList from 'containers/TasksList/';
 import TaskAdd from 'containers/TaskAdd/';
 import TaskDetails from 'containers/TaskDetails';
+import Test from 'containers/Test/';
 
 import App from 'components/Layouts/App';
 
@@ -19,6 +20,7 @@ module.exports = ({ dispatch, getState }) => (
     <div>
         <Router>
             <Route path='/' >
+                <Route component={Test} path='test' />
                 <Route component={requireAuthentication(App)}>
                     <Route component={TasksLayout} path='projects/:projectId/'>
                         <Route component={TasksList} path='tasks' />
