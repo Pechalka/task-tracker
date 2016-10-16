@@ -1,68 +1,41 @@
 
-const initState = {
-    projects: [],
-};
+import axios from 'axios';
+import { observable, action, computed } from 'mobx';
 
-export const reducer = (state = initState, action) => {
-    switch (action.type) {
-        case 'PROJECTS_OPEN_POPUP':
-            return { ...state, popupOpen: true };
+class Store {
+    @observable projects = [];
+    @observable popupOpen = false;
 
-        case 'PROJECTS_CLOSE_POPUP':
-            return { ...state, popupOpen: false };
-
-        case 'LOAD_PRODUCTS_SUCCESS':
-            return { ...state, projects: action.payload };
-
-        default:
-            return state;
+    showPage = () => {
+        this.getAllProjects();
     }
-};
+
+    openPopup = () => {
+        this.popupOpen = true;
+    }
+
+    closePopup = () => {
+        this.popupOpen = false;
+    }
+
+    addProject = (title, userIds) => {
+        return axios.post('/api/projects', { title })
+            .then(() => this.getAllProjects())
+            .then(() => this.closePopup());
+    }
+
+    removeProject = ({ id }) => {
+        return axios.delete(`/api/projects/${id}`)
+                .then(() => this.getAllProjects());
+    }
+
+    getAllProjects = () => {
+        return axios.get('/api/projects')
+                .then(response => {
+                    this.projects.replace(response.data);
+                });
+    }
+}
 
 
-const getAllProjects = () => ({
-    type: 'LOAD_PRODUCTS',
-    payload: {
-        request: '/api/projects',
-    },
-});
-
-const deleteProjects = (id) => ({
-    type: 'DELETE_PRODUCT',
-    payload: {
-        request: {
-            url: `/api/projects/${id}`,
-            method: 'delete',
-        },
-    },
-});
-
-const createProject = (data) => ({
-    type: 'CREATE_PROJECT',
-    payload: {
-        request: {
-            url: '/api/projects',
-            data,
-            method: 'post',
-        },
-    },
-});
-
-
-const loadProjects = () => (dispatch) => dispatch(getAllProjects());
-
-// Publick
-
-export const showPage = () => (dispatch) => dispatch(loadProjects());
-
-export const removeProject = ({ id }) => (dispatch) => dispatch(deleteProjects(id))
-    .then(() => dispatch(loadProjects()));
-
-
-export const openPopup = () => ({ type: 'PROJECTS_OPEN_POPUP' });
-export const closePopup = () => ({ type: 'PROJECTS_CLOSE_POPUP' });
-
-export const addProject = (title, userIds) => (dispatch) =>
-    dispatch(createProject({ title }))
-        .then(() => dispatch(getAllProjects()))
-        .then(() => dispatch(closePopup()));
+export default Store;

@@ -1,16 +1,27 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import ProjectsList from './ProjectsList/';
 import AddProjectModal from './AddProjectModal/';
+import { observer } from 'mobx-react';
 
-const ProjectsListPage = () => (
-    <div>
-        <ProjectsList />
-        <AddProjectModal />
-    </div>
-);
+@observer(['projectsList'])
+class ProjectsListPage extends Component {
+    componentDidMount() {
+        this.props.projectsList.showPage();
+    }
 
-import loading from 'HOC/loading';
-import { showPage } from './state';
+    render() {
+        return (
+            <div>
+                <ProjectsList />
+                <AddProjectModal />
+            </div>
+        );
+    }
+}
 
-export default loading([showPage])(ProjectsListPage);
+// import loading from 'HOC/loading';
+// import { showPage } from './state';
+
+export default ProjectsListPage;
+// loading([showPage])(ProjectsListPage);

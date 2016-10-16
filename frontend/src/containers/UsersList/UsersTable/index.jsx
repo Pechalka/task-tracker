@@ -3,8 +3,9 @@ import { Table, Button } from 'react-bootstrap';
 
 import { observer } from 'mobx-react';
 
-export default observer(['app'], ({
-    app: { users, removeUser, currentUser },
+export default observer(['app', 'auth'], ({
+    app: { users, removeUser },
+    auth: { userId },
 }) => {
     return (
         <div>
@@ -29,7 +30,7 @@ export default observer(['app'], ({
                             <td>
                                 <div className='text-center'>
                                 <Button
-                                  disabled={user.id === currentUser.id}
+                                  disabled={user.id === userId}
                                   onClick={() => removeUser(user)}
                                 >remove</Button>
                                 </div>

@@ -5,16 +5,18 @@ import { Navbar, NavBrand, Nav, NavItem } from 'react-bootstrap';
 
 import { LinkContainer } from 'react-router-bootstrap';
 
-const DashboardMenu = ({
-    logout,
-    addProject,
+import { observer } from 'mobx-react';
+
+const DashboardMenu = observer(['projectsList', 'auth'], ({
+    auth: { logout },
+    projectsList: { openPopup },
 }) => (
     <Navbar>
         <NavBrand>
             <Link to='/'>Task-tracker</Link>
         </NavBrand>
         <Nav>
-            <NavItem eventKey={2} onClick={addProject}>add project</NavItem>
+            <NavItem eventKey={2} onClick={openPopup}>add project</NavItem>
             <LinkContainer to='/users'>
                 <NavItem eventKey={1}>users</NavItem>
             </LinkContainer>
@@ -23,14 +25,13 @@ const DashboardMenu = ({
             <NavItem eventKey={3} onSelect={() => logout()}>logout</NavItem>
         </Nav>
     </Navbar>
-);
+));
 
 import { connect } from 'react-redux';
 
-import { showAddProject } from 'reduxApp/modules/app';
 import { logout } from 'reduxApp/modules/auth';
 
 export default connect(
     null,
-    { addProject: showAddProject, logout }
+    { logout }
 )(DashboardMenu);

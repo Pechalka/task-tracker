@@ -15,7 +15,7 @@ export function reducer(state = initState, action) {
 }
 
 import { push } from 'redux-router';
-import { openPopup } from 'containers/ProjectsList/state';
+//import { openPopup } from 'containers/ProjectsList/state';
 
 const getAllUsers = () => ({
     type: 'LOAD_USERS',
@@ -36,5 +36,5 @@ export const appStart = () => (dispatch) => dispatch(loadUsers());
 
 export const showAddProject = () => (dispatch) => {
     dispatch(push('/'));
-    dispatch(openPopup());
+   // dispatch(openPopup());
 };

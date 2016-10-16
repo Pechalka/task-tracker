@@ -5,9 +5,11 @@ import { Navbar, NavBrand, Nav, NavItem } from 'react-bootstrap';
 
 import { LinkContainer } from 'react-router-bootstrap';
 
-const TasksMenu = ({
+import { observer } from 'mobx-react';
+
+const TasksMenu = observer(['auth'], ({
     projectId,
-    logout,
+    auth: { logout },
 }) => (
     <Navbar>
         <NavBrand>
@@ -27,7 +29,7 @@ const TasksMenu = ({
             <NavItem eventKey={3} onSelect={() => logout()}>logout</NavItem>
         </Nav>
     </Navbar>
-);
+));
 
 import { connect } from 'react-redux';
 import { logout } from 'reduxApp/modules/auth';

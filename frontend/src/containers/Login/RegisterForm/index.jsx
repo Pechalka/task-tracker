@@ -1,19 +1,19 @@
 
-import { connect } from 'react-redux';
-import { registr } from 'reduxApp/modules/auth';
-
 import React, { Component, PropTypes } from 'react';
 
 import { Button, Input } from 'react-bootstrap';
 import './index.css';
 
+import { observer } from 'mobx-react';
+
+@observer(['auth'])
 class RegisterForm extends Component {
     static propTypes = {
         registr: PropTypes.func,
     }
 
     regist = () => {
-        this.props.registr({
+        this.props.auth.registr({
             email: this.refs.email.getValue(),
             password: this.refs.password.getValue(),
             name: this.refs.name.getValue(),
@@ -32,7 +32,4 @@ class RegisterForm extends Component {
     }
 }
 
-export default connect(
-    null,
-    { registr }
-)(RegisterForm);
+export default RegisterForm;

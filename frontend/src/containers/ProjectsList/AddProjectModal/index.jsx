@@ -7,7 +7,9 @@ import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 const LinkedStateMixin = require('react-addons-linked-state-mixin');
 
-const AddProjectModal = React.createClass({
+import { observer } from 'mobx-react';
+
+const AddProjectModal = observer(['projectsList', 'app'], React.createClass({
     mixins: [LinkedStateMixin],
     getInitialState() {
         return {
@@ -23,9 +25,12 @@ const AddProjectModal = React.createClass({
 
     render() {
         const {
-            users,
             addProject,
-        } = this.props;
+            popupOpen,
+            closePopup,
+        } = this.props.projectsList;
+
+        const { users } = this.props.app;
 
         const allUsers = users.map(user => (
             { value: user.id, label: user.name })
@@ -35,12 +40,12 @@ const AddProjectModal = React.createClass({
                 userIds,
                 title,
             } = this.state;
-            const ids = userIds.map(id => parseInt(id, 10));
+            const ids = userIds.map(item => parseInt(item.value, 10));
             addProject(title, ids);
         };
 
         return (
-            <Modal {...this.props} >
+            <Modal show={popupOpen} onHide={closePopup}>
             <Modal.Body>
              <Input valueLink={this.linkState('title')} type='text' label='project title' />
              <b>Team:</b>
@@ -59,21 +64,8 @@ const AddProjectModal = React.createClass({
           </Modal>
         );
     },
-});
+}));
 
 
-import { connect } from 'react-redux';
+export default AddProjectModal;
 
-
-import {
-    closePopup, addProject,
-} from '../state';
-
-
-export default connect(
-    state => ({
-        show: state.projectsList.popupOpen,
-        users: state.app.users,
-    }),
-    { onHide: closePopup, addProject }
-)(AddProjectModal);

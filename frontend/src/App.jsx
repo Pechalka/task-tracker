@@ -3,15 +3,20 @@ import { observable, computed } from 'mobx';
 
 class App {
     @observable users = [];
-    @observable statuses = ['new', 'inprogress', 'testing', 'complited'];
-    @observable currentUser = {};
+    @computed get getUserOptions() {
+        return this.users.map(user => ({ value: user.id, label: user.name }));
+    }
 
+    @observable statuses = ['new', 'inprogress', 'testing', 'complited'];
     @computed get getStatusesOptions() {
         return this.statuses.map(str => ({ value: str, label: str }));
     }
 
-    @computed get getUserOptions() {
-        return this.users.map(user => ({ value: user.id, label: user.name }));
+    @observable currentUser = null;
+    @computed get userId() {
+        if (!this.currentUser) return null;
+
+        return this.currentUser.id;
     }
 
     appStart = () => {

@@ -1,15 +1,17 @@
 import React from 'react';
-import { connect } from 'react-redux';
+//import { connect } from 'react-redux';
 //import { pushState } from 'redux-router';
 
 
-import { checkAuth } from 'reduxApp/modules/auth';
-
+//import { checkAuth } from 'reduxApp/modules/auth';
+import { observer } from 'mobx-react';
 
 export function requireAuthentication(Component) {
+
+    @observer(['auth'])
     class AuthenticatedComponent extends React.Component {
         componentWillMount() {
-            this.props.checkAuth();
+            this.props.auth.checkAuth();
         }
 
         // componentWillReceiveProps(nextProps) {
@@ -17,18 +19,26 @@ export function requireAuthentication(Component) {
         // }
 
         // checkAuth() {
-        //     if (!this.props.isAuthenticated) {
-        //         let redirectAfterLogin = this.props.location.pathname
-        //         this.props.dispatch(pushState(null, `/login?next=${redirectAfterLogin}`))
-        //     }
+        //     // if (!this.props.isAuthenticated) {
+        //     //     let redirectAfterLogin = this.props.location.pathname
+        //     //     this.props.dispatch(pushState(null, `/login?next=${redirectAfterLogin}`))
+        //     // }
+        //     this.props.auth.checkAuth()
+        //         // .then(() => {
+        //         //     debugger
+        //         // })
+        //         .catch(() => {
+        //             debugger
+        //             this.props.router.push('/login');
+        //         });
         // }
 
         render() {
-
+            const { isAuthenticated } = this.props.auth;
             return (
                 <div>
-                {this.props.isAuthenticated === true
-                ? <Component {...this.props}/>
+                {isAuthenticated === true
+                ? <Component {...this.props} />
                 : null
                 }
                 </div>
@@ -36,11 +46,12 @@ export function requireAuthentication(Component) {
         }
     }
 
+    return AuthenticatedComponent;
 
-    return connect(
-        (state) => ({
-            isAuthenticated: !!state.auth.user,
-        }),
-        { checkAuth }
-    )(AuthenticatedComponent);
+    // return connect(
+    //     (state) => ({
+    //         isAuthenticated: !!state.auth.user,
+    //     }),
+    //     { checkAuth }
+    // )(AuthenticatedComponent);
 };

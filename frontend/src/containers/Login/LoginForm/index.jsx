@@ -1,12 +1,13 @@
 
-import { connect } from 'react-redux';
-
 import React, { PropTypes } from 'react';
 
 import { Button, Input } from 'react-bootstrap';
 import './index.css';
 
-const LoginForm = ({ login }) => {
+
+import { observer } from 'mobx-react';
+
+const LoginForm = observer(['auth'], ({ auth: { login } }) => {
     let email;
     let password;
     return (
@@ -33,16 +34,10 @@ const LoginForm = ({ login }) => {
             >login</Button>
         </form>
     );
-};
+});
 
 LoginForm.propTypes = {
     login: PropTypes.func,
 };
 
-
-import { login } from 'reduxApp/modules/auth';
-
-export default connect(
-    null,
-    { login }
-)(LoginForm);
+export default LoginForm;

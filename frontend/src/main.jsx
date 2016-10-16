@@ -9,9 +9,11 @@ import createStore from './reduxApp/create.jsx';
 import { Provider as MOBXPRovider } from 'mobx-react';
 
 import App from 'App';
+import Auth from 'Auth';
 import TaskList from 'containers/TasksList/state';
 import TaskDetails from 'containers/TaskDetails/state';
 import TaskAdd from 'containers/TaskAdd/state';
+import ProjectsList from 'containers/ProjectsList/state';
 
 
 const getRoutes = require('./routes');
@@ -52,6 +54,8 @@ window.onload = () => {
             taskList: new TaskList(),
             taskDetails: new TaskDetails(),
             taskAdd: new TaskAdd(),
+            projectsList: new ProjectsList(),
+            auth: new Auth(),
         };
         render((
             <Root store={store} stores={stores} />

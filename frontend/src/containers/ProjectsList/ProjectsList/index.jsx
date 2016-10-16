@@ -26,8 +26,12 @@ const ProductItem = ({ product, removeProject }) => {
         </ListGroupItem>
     );
 };
+import { observer } from 'mobx-react';
 
-const ProjectsList = ({ projects, removeProject }) => (
+
+const ProjectsList = observer(['projectsList'], ({
+    projectsList: { projects, removeProject },
+}) => (
     <ListGroup>
         <ListGroupItem>
             <div className='clearfix'>
@@ -47,17 +51,19 @@ const ProjectsList = ({ projects, removeProject }) => (
         )}
 
     </ListGroup>
-);
+));
 
-import { connect } from 'react-redux';
+export default ProjectsList;
 
-import {
-    removeProject,
-} from '../state';
+// import { connect } from 'react-redux';
 
-export default connect(
-    state => ({
-        projects: state.projectsList.projects,
-    }),
-    { removeProject }
-)(ProjectsList);
+// import {
+//     removeProject,
+// } from '../state';
+
+// export default connect(
+//     state => ({
+//         projects: state.projectsList.projects,
+//     }),
+//     { removeProject }
+// )(ProjectsList);

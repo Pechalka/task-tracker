@@ -7,14 +7,10 @@ class Store {
     @observable comments = [];
 
     showPage = ({ id }) => {
-        Promise.all([
+        return Promise.all([
             this.loadComments(id),
             this.loadTask(id),
         ]);
-        return axios.get(`/api/tasks/${id}`)
-            .then(response => {
-                this.task = response.data;
-            });
     }
 
     loadTask = (id) => {
