@@ -1,9 +1,10 @@
 
-import { connect } from 'react-redux';
-
 import React, { Component, PropTypes } from 'react';
 import { Button, Input } from 'react-bootstrap';
 
+import { observer } from 'mobx-react';
+
+@observer(['taskDetails'])
 class AddComentForm extends Component {
 
     state = { value: '' }
@@ -17,7 +18,7 @@ class AddComentForm extends Component {
     }
 
     addComment = () => {
-        this.props.addComment(this.state.value);
+        this.props.taskDetails.addComment(this.props.taskId, this.state.value);
         this.setState({ value: '' });
     }
 
@@ -38,9 +39,4 @@ class AddComentForm extends Component {
     }
 }
 
-import { addComment } from '../state';
-
-export default connect(
-    null,
-    { addComment }
-)(AddComentForm);
+export default AddComentForm;

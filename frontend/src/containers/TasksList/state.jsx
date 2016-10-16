@@ -6,7 +6,7 @@ const toParams = (obj) => Object.keys(obj)
 
 
 import axios from 'axios';
-import { observable } from 'mobx';
+import { observable, action, computed } from 'mobx';
 
 class Store {
     @observable userId = null;
@@ -16,7 +16,7 @@ class Store {
     @observable page = 1;
     @observable items = 0;
 
-    showPage = () => {
+    @action showPage = () => {
         const {
             page,
             userId,
@@ -52,6 +52,7 @@ class Store {
         this.status = status;
     }
 }
+
 
 export default Store;
 

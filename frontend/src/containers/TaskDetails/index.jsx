@@ -1,18 +1,43 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import TaskInfo from './TaskInfo/';
 import AddComentForm from './AddComentForm/';
 import CommentsList from './CommentsList/';
 
-const TaskDetails = () => (
-    <div>
-        <TaskInfo />
-        <AddComentForm />
-        <CommentsList />
-    </div>
-);
+import { observer } from 'mobx-react';
 
-import loading from 'HOC/loading';
-import { showPage } from './state';
+@observer(['taskDetails'])
+class TaskDetails extends Component {
+    state = {
+        loading: true,
+    }
 
-export default loading([showPage])(TaskDetails);
+    componentDidMount() {
+        const {
+            params,
+            taskDetails,
+        } = this.props;
+
+        taskDetails.showPage(params).then(() => {
+            this.setState({ loading: false });
+        });
+    }
+
+    render() {
+        const {
+            params: { projectId, id },
+        } = this.props;
+
+        return (
+            <div>
+                {!this.state.loading && <div>
+                    <TaskInfo projectId={projectId} />
+                    <AddComentForm taskId={id} />
+                    <CommentsList taskId={id} />
+                </div>}
+            </div>
+        );
+    }
+}
+
+export default TaskDetails;

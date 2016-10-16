@@ -1,10 +1,13 @@
 
-import { connect } from 'react-redux';
-
 import React, { PropTypes } from 'react';
 import { Button } from 'react-bootstrap';
 
-const CommentsList = ({ comments, deleteComment }) => (
+import { observer } from 'mobx-react';
+
+const CommentsList = observer(['taskDetails'], ({
+    taskDetails: { comments, deleteComment },
+    taskId,
+}) => (
     <div>
         {comments.map(comment => (
             <div key={comment.id}>
@@ -13,7 +16,7 @@ const CommentsList = ({ comments, deleteComment }) => (
                     <Button
                       bsStyle='link'
                       bsSize='xsmall'
-                      onClick={() => deleteComment(comment)}
+                      onClick={() => deleteComment(taskId, comment)}
                     >remove</Button>
                 </h4>
 
@@ -22,18 +25,11 @@ const CommentsList = ({ comments, deleteComment }) => (
             </div>
         ))}
     </div>
-);
+));
 
 CommentsList.propTypes = {
     comments: PropTypes.array,
     deleteComment: PropTypes.func,
 };
 
-import { deleteComment } from '../state';
-
-export default connect(
-    state => ({
-        comments: state.tasksDetails.comments,
-    }),
-    { deleteComment }
-)(CommentsList);
+export default CommentsList;

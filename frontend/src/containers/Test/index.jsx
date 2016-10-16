@@ -6,6 +6,8 @@ import axios from 'axios';
 import cancelXhrAdapter from 'axios-cancel';
 import {Cancellation} from 'axios-cancel/cancel';
 
+import { observer, Provider } from 'mobx-react';
+
 //let request;
 let cancelRequest;
 class Test extends Component {
@@ -64,9 +66,11 @@ class Test extends Component {
     render() {
         return (
             <div>
+                <Provider>
                 <div>
                     <button onClick={this.click}>test</button>
                 </div>
+                </Provider>
             </div>
         );
     }

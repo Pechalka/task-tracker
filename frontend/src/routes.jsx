@@ -16,9 +16,9 @@ import Test from 'containers/Test/';
 
 import App from 'components/Layouts/App';
 
-module.exports = ({ dispatch, getState }) => (
+
+module.exports = ({ dispatch, getState, app }) => (
     <div>
-        <Router>
             <Route path='/' >
                 <Route component={Test} path='test' />
                 <Route component={requireAuthentication(App)}>
@@ -36,6 +36,5 @@ module.exports = ({ dispatch, getState }) => (
                 <Route component={Login} path='login' />
                 <Route path='*' component={NoMatch} />
             </Route>
-        </Router>
     </div>
 );

@@ -1,33 +1,32 @@
 
-import { connect } from 'react-redux';
-
 import React, { PropTypes } from 'react';
 import { Button } from 'react-bootstrap';
 
-const TaskInfo = ({ task: { title, description }, deleteTask }) => (
-    <div>
+import { observer } from 'mobx-react';
+
+const TaskInfo = observer(['taskDetails'], ({
+    taskDetails: { task: { title, description }, deleteTask },
+    projectId,
+}) => {
+    return (
         <div>
-            <h1>{title}</h1>
-            <p>
-                {description}
-            </p>
+            <div>
+                <h1>{title}</h1>
+                <p>
+                    {description}
+                </p>
+            </div>
+            <Button onClick={() => deleteTask(projectId)}>Delete</Button>
         </div>
-        <Button onClick={() => deleteTask()}>Delete</Button>
-    </div>
-);
+    );
+});
+
 
 TaskInfo.propTypes = {
     task: PropTypes.object,
     deleteTask: PropTypes.func,
 };
 
-import { deleteTask } from '../state';
-
-export default connect(
-    state => ({
-        task: state.tasksDetails.task,
-    }),
-    { deleteTask }
-)(TaskInfo);
+export default TaskInfo;
 
 
