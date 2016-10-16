@@ -11,6 +11,7 @@ import { Provider as MOBXPRovider } from 'mobx-react';
 import App from 'App';
 import TaskList from 'containers/TasksList/state';
 import TaskDetails from 'containers/TaskDetails/state';
+import TaskAdd from 'containers/TaskAdd/state';
 
 
 const getRoutes = require('./routes');
@@ -50,6 +51,7 @@ window.onload = () => {
             app,
             taskList: new TaskList(),
             taskDetails: new TaskDetails(),
+            taskAdd: new TaskAdd(),
         };
         render((
             <Root store={store} stores={stores} />

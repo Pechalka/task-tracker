@@ -4,6 +4,7 @@ const initState = {
 };
 
 export const LOGIN = 'LOGIN';
+import axios from 'axios';
 
 export function reducer(state = initState, action) {
     switch (action.type) {
@@ -28,17 +29,10 @@ export function startSession(payload) {
     };
 }
 
-export const logout = () => dispatch =>
-    dispatch({
-        types: ['LOGOUT', 'LOGOUT'],
-        payload: {
-            request: {
-                url: '/api/session',
-                mehtod: 'delete',
-            },
-        },
-    }).then(() => dispatch(push('/login')));
-
+export const logout = () => dispatch => {
+    axios.delete('/api/session')
+        .then(() => dispatch(push('/login')));
+}
 
 export const login = (form) => (dispatch) =>
     dispatch({
@@ -60,15 +54,22 @@ export const registr = (form) => dispatch =>
             request: {
                 url: '/api/users',
                 method: 'post',
+                data: form
             },
         },
-    }).then(data => dispatch(login(data)));
+    }).then(data => dispatch(login(data.payload)));
 
 
-export const checkAuth = () => ({
-    types: ['START_SESSION', 'LOGOUT'],
-    payload: {
-        request: '/api/session',
-    },
-});
+export const checkAuth = () => (dispatch) => {
+    return axios.get('/api/session')
+        .then((response) => dispatch(startSession(response.data)))
+        .catch(() => dispatch(logout()));
+};
+
+// ({
+//     types: ['START_SESSION', 'LOGOUT'],
+//     payload: {
+//         request: '/api/session',
+//     },
+// });
 

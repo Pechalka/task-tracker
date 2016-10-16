@@ -8,5 +8,6 @@ const UsersList = () => (
     </div>
 );
 
-import loading from 'HOC/loading';
-export default loading([])(UsersList);
+export default UsersList;
+// import loading from 'HOC/loading';
+// export default loading([])(UsersList);

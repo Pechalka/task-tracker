@@ -1,13 +1,25 @@
-import React from 'react';
+import React, { Component } from 'react';
 import TaskAddForm from './TaskAddForm/';
 
-const TaskAdd = () => (
-    <div>
-        <TaskAddForm />
-    </div>
-);
+import { observer } from 'mobx-react';
 
-import loading from 'HOC/loading';
-import { showPage } from './state';
+@observer(['taskAdd'])
+class TaskAdd extends Component {
+    componentDidMount() {
+        const {
+            params,
+            taskAdd,
+        } = this.props;
 
-export default loading([showPage])(TaskAdd);
+        taskAdd.showPage(params);
+    }
+    render() {
+        return (
+            <div>
+                <TaskAddForm />
+            </div>
+        );
+    }
+}
+
+export default TaskAdd;

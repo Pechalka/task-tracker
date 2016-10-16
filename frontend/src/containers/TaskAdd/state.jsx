@@ -1,65 +1,35 @@
-const initState = {
-    versions: [],
-};
+import axios from 'axios';
 
+import { observable } from 'mobx';
+class Store {
+    @observable versions = [];
+    params = null;
 
-export const reducer = (state = initState, action) => {
-    switch (action.type) {
-        case 'LOAD_VERSIONS_SUCCESS':
-            return { ...state, versions: action.payload };
-
-        default:
-            return state;
+    showPage = (params) => {
+        this.params = params;
+        this.getAllVersions();
     }
-};
 
-import { push } from 'redux-router';
+    getAllVersions = () => {
+        return axios.get('/api/version')
+            .then(response => {
+                this.versions.replace(response.data);
+            });
+    }
 
-const getAllVersions = () => ({
-    type: 'LOAD_VERSIONS',
-    payload: {
-        request: '/api/version',
-    },
-});
-
-const createVersion = (data) => ({
-    type: 'CREATE_VERSION',
-    payload: {
-        request: {
-            url: '/api/version',
-            method: 'post',
-            data,
-        },
-    },
-});
-
-const createTask = (data) => ({
-    type: 'CREATE_TASK',
-    payload: {
-        request: {
-            url: '/api/tasks',
-            method: 'post',
-            data,
-        },
-    },
-});
-
-export const showPage = () => (dispatch) => dispatch(getAllVersions());
-
-
-export function addVersion() {
-    return (dispatch) => {
+    addVersion = () => {
         const title = prompt('Create new Version', '');
-        if (title) {
-            dispatch(createVersion({ title }))
-                .then(() => dispatch(getAllVersions()));
-        }
-    };
+        axios.post('/api/version', { title })
+            .then(() => this.getAllVersions());
+    }
+
+    addTask = (data) => {
+        const { projectId } = this.params;
+        axios.post('/api/tasks', data)
+            .then(() => {
+                window.location = `/projects/${projectId}/tasks`;
+            });
+    }
 }
 
-export function addTask(form) {
-    return (dispatch, getState) => {
-        const { router: { params: { projectId } } } = getState();
-        dispatch(createTask(form)).then(() => dispatch(push(`/projects/${projectId}/tasks`)));
-    };
-}
+export default Store;

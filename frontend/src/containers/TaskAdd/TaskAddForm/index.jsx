@@ -6,6 +6,9 @@ import Select from 'react-select';
 
 import './index.css';
 
+import { observer } from 'mobx-react';
+
+@observer(['taskAdd', 'app'])
 class TaskAddForm extends Component {
     constructor(props) {
         super(props);
@@ -13,24 +16,26 @@ class TaskAddForm extends Component {
     }
 
     add() {
-        const { addTask, users } = this.props;
+        const { getUserOptions } = this.props.app;
+        const { addTask } = this.props.taskAdd;
         const title = this.refs.input.getValue();
         const description = this.refs.description.getValue();
         const { status, assignee, version } = this.state;
-        const assigneeUser = users.find(user => user.value === assignee);
+        const assigneeUser = getUserOptions.find(user => user.value === assignee.value);
 
         addTask({
             title,
             description,
             status,
-            assignee,
+            assignee: assignee.value,
             version,
             assigneeName: assigneeUser.label,
         });
     }
 
     render() {
-        const { statuses, users, addVersion, versions } = this.props;
+        const { getStatusesOptions, getUserOptions } = this.props.app;
+        const { addVersion, versions } = this.props.taskAdd;
 
         const allVersion = versions.map(version => ({ value: version.title, label: version.title }));
 
@@ -45,7 +50,7 @@ class TaskAddForm extends Component {
                       searchable={false}
                       clearable={false}
                       placeholder='-'
-                      options={statuses}
+                      options={getStatusesOptions}
                     />
                 </div>
                 <div className='form-group task-add-from__user-select'>
@@ -54,7 +59,7 @@ class TaskAddForm extends Component {
                       value={this.state.assignee}
                       onChange={assignee => this.setState({ assignee })}
                       placeholder='-'
-                      options={users}
+                      options={getUserOptions}
                     />
                 </div>
                 <div className='form-group'>
@@ -84,21 +89,4 @@ class TaskAddForm extends Component {
     }
 }
 
-
-import { connect } from 'react-redux';
-import { addTask, addVersion } from '../state';
-
-
-import {
-    getStatusesOptions,
-    getUserOptions,
-} from 'reduxApp/modules/app';
-
-export default connect(
-    state => ({
-        statuses: getStatusesOptions(state),
-        users: getUserOptions(state),
-        versions: state.tasksAdd.versions,
-        assignee: state.auth.user ? state.auth.user.id : null,
-    })
-, { addTask, addVersion })(TaskAddForm);
+export default TaskAddForm;
