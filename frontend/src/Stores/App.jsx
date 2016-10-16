@@ -20,7 +20,7 @@ class App {
     }
 
     appStart = () => {
-        this.loadUsers();
+        return this.loadUsers();
     }
 
     loadUsers = () => {

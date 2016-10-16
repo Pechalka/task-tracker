@@ -1,9 +1,5 @@
 import React from 'react';
-//import { connect } from 'react-redux';
-//import { pushState } from 'redux-router';
 
-
-//import { checkAuth } from 'reduxApp/modules/auth';
 import { observer } from 'mobx-react';
 
 export function requireAuthentication(Component) {
@@ -48,10 +44,4 @@ export function requireAuthentication(Component) {
 
     return AuthenticatedComponent;
 
-    // return connect(
-    //     (state) => ({
-    //         isAuthenticated: !!state.auth.user,
-    //     }),
-    //     { checkAuth }
-    // )(AuthenticatedComponent);
 };

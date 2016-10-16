@@ -55,15 +55,3 @@ const ProjectsList = observer(['projectsList'], ({
 
 export default ProjectsList;
 
-// import { connect } from 'react-redux';
-
-// import {
-//     removeProject,
-// } from '../state';
-
-// export default connect(
-//     state => ({
-//         projects: state.projectsList.projects,
-//     }),
-//     { removeProject }
-// )(ProjectsList);

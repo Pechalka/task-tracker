@@ -27,11 +27,4 @@ const DashboardMenu = observer(['projectsList', 'auth'], ({
     </Navbar>
 ));
 
-import { connect } from 'react-redux';
-
-import { logout } from 'reduxApp/modules/auth';
-
-export default connect(
-    null,
-    { logout }
-)(DashboardMenu);
+export default DashboardMenu;

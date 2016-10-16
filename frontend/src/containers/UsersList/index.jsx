@@ -9,5 +9,3 @@ const UsersList = () => (
 );
 
 export default UsersList;
-// import loading from 'HOC/loading';
-// export default loading([])(UsersList);

@@ -20,8 +20,4 @@ class ProjectsListPage extends Component {
     }
 }
 
-// import loading from 'HOC/loading';
-// import { showPage } from './state';
-
 export default ProjectsListPage;
-// loading([showPage])(ProjectsListPage);

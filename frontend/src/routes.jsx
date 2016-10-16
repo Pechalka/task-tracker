@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Router, Route, IndexRoute } from 'react-router';
+import { Route, IndexRoute } from 'react-router';
 
 import Login from 'containers/Login/';
 import ProjectsList from 'containers/ProjectsList/';
@@ -16,7 +16,7 @@ import TaskDetails from 'containers/TaskDetails';
 import App from 'components/Layouts/App';
 
 
-module.exports = ({ dispatch, getState, app }) => (
+module.exports = () => (
     <div>
         <Route path='/' >
             <Route component={requireAuthentication(App)}>
