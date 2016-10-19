@@ -25,7 +25,7 @@ import { deleteTask } from '../state';
 
 export default connect(
     state => ({
-        task: state.tasksDetails.task,
+        task: state.rest.tasks.item,
     }),
     { deleteTask }
 )(TaskInfo);

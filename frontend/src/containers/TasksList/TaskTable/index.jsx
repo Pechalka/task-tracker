@@ -41,7 +41,7 @@ TaskTable.propTypes = {
 import { connect } from 'react-redux';
 export default connect(
     state => ({
-        tasks: state.tasksList.tasks,
+        tasks: state.rest.tasks.items,
         projectId: state.router.params.projectId,
     })
 )(TaskTable);

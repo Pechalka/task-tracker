@@ -2,10 +2,6 @@
 const initState = {
     userId: null,
     status: 'new',
-
-    tasks: [],
-    page: 1,
-    items: 0,
 };
 
 export function reducer(state = initState, action) {
@@ -14,52 +10,35 @@ export function reducer(state = initState, action) {
             return { ...state, userId: action.payload };
         case 'CHANGE_STATUS':
             return { ...state, status: action.payload };
-        case 'SET_PAGE':
-            return { ...state, page: action.payload };
-
-        case 'SET_TASKS': {
-            const { count, items } = action.payload;
-            return { ...state, tasks: items, items: Math.ceil(count / 10) };
-        }
 
         default:
             return state;
     }
 }
 
-import http, { toParams } from 'utils/http';
 
-const setTasks = (payload) => ({ type: 'SET_TASKS', payload });
+import { getActions } from 'reduxApp/modules/rest';
+
+const tasks = getActions('/api/tasks', 'tasks');
 
 const loadTasks = () => (dispatch, getState) => {
     const {
         tasksList: {
             userId,
             status,
-            page,
         },
-//        router: { params: { projectId } },
     } = getState();
-    const query = toParams({
+    const params = {
         assignee: userId,
         status,
-    });
-    return http.get(`/api/tasks/page/${page}/5?${query}`)
-        .then(payload => dispatch(setTasks(payload)));
+    };
+    return dispatch(tasks.getPage(params));
 };
 
-const setPage = (page) => ({ type: 'SET_PAGE', payload: page });
-
-// PUBLIC
 
 export const changeUserId = (id) => ({ type: 'CHANGE_USER_ID', payload: id });
 export const changeStatus = (status) => ({ type: 'CHANGE_STATUS', payload: status });
 
-export const changePage = (page) => (dispatch) => {
-    dispatch(setPage(page));
-    return dispatch(loadTasks());
-};
-
 export const makeSearch = () => (dispatch) => dispatch(loadTasks());
-export const showPage = () => (dispatch) => dispatch(loadTasks());
+export const showPage = () => (dispatch, getState) => dispatch(loadTasks());
 

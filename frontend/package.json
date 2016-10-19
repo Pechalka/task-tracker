@@ -36,6 +36,7 @@
     "mobx-react": "^3.0.4",
     "mobx-react-devtools": "^4.0.2",
     "moment": "^2.10.6",
+    "multireducer": "^3.0.1",
     "react": "0.14.3",
     "react-addons-linked-state-mixin": "15.3.0",
     "react-bootstrap": "0.27.0",

@@ -33,7 +33,7 @@ import { deleteComment } from '../state';
 
 export default connect(
     state => ({
-        comments: state.tasksDetails.comments,
+        comments: state.rest.comments.items,
     }),
     { deleteComment }
 )(CommentsList);

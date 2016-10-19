@@ -72,7 +72,7 @@ import {
 
 export default connect(
     state => ({
-        show: state.projectsList.popupOpen,
+        show: state.popups.addProject.show,
         users: state.app.users,
     }),
     { onHide: closePopup, addProject }

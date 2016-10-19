@@ -18,14 +18,18 @@ TaskPager.propTypes = {
     onSelect: PropTypes.func,
 };
 
-import { changePage } from '../state';
+//import { changePage } from '../state';
+import { bindActionCreators } from 'multireducer';
+
+import { getActions } from 'reduxApp/modules/rest';
+
+const tasks = getActions('/api/tasks');
+//const mapDispatchToProps = (dispatch) => bindActionCreators({ changePage }, dispatch, 'tasks')
 
 export default connect(
     state => ({
-        items: state.tasksList.items,
-        activePage: state.tasksList.page,
+        items: state.rest.tasks.totalPages,
+        activePage: state.rest.tasks.page,
     }),
-    {
-        onSelect: changePage,
-    }
+    (dispatch) => bindActionCreators({ onSelect: tasks.changePage }, dispatch, 'tasks')
 )(TaskPager);
