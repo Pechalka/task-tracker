@@ -26,8 +26,8 @@ module.exports = {
 
     output: {
         path: path.resolve(__dirname, 'dist'),
-       publicPath : 'http://localhost:7000/',
-        filename: 'app.[hash].js'
+        publicPath: 'http://localhost:3000/',
+        filename: 'app.[hash].js',
     },
     devtool: 'source-map',
    // modulesDirectories: ['node_modules', 'web_modules', 'bower_components'],

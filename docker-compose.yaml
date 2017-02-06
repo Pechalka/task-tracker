@@ -1,0 +1,49 @@
+version: '2'
+
+services:
+
+  frontend:
+    image: node:6.9.0
+    working_dir: /src
+    command: bash -c "npm install && npm run deploy"
+    volumes:
+      - ./frontend:/src
+
+  proxy:
+    build: nginx
+    volumes_from:
+      - frontend
+    links:
+      - frontend
+    ports:
+     - "3000:80" 
+
+  backend:
+    image: node:6.9.0
+    working_dir: /src
+    command: bash -c "npm install && npm start"
+    links:
+      - db
+    ports:
+      - "7000:7000"
+    volumes:
+      - ./api:/src
+
+  db:
+    image: mysql:5.5.54
+    container_name: mysql
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/mysql/data
+    environment:
+      MYSQL_DATABASE: "startap"
+      MYSQL_USER: "user"
+      MYSQL_PASSWORD: "123"
+      MYSQL_ROOT_PASSWORD: "root"
+
+
+
+volumes:
+  mysql_data:
+    driver: local

@@ -17,13 +17,13 @@ class TaskAddForm extends Component {
         const title = this.refs.input.getValue();
         const description = this.refs.description.getValue();
         const { status, assignee, version } = this.state;
-        const assigneeUser = users.find(user => user.id === assignee);
+        const assigneeUser = users.find(user => user.id === assignee.value);
 
         addTask({
             title,
             description,
-            status,
-            assignee,
+            status: status.value,
+            assignee: assignee.value,
             version,
             assigneeName: assigneeUser.name,
         });

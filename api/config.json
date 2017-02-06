@@ -2,10 +2,10 @@
     "port" : "5000",
     "secret" : "secret7",
     "mysql": {
-        "host": "localhost",
+        "host": "mysql",
         "port": 3306,
-        "user": "root",
-        "password": "",
+        "user": "user",
+        "password": "123",
         "database": "startap",
         "adapter" : "mysql"
     },
