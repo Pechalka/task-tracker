@@ -32,7 +32,7 @@ const ProjectsList = ({ openPopup, projects, removeProject }) => (
         <ListGroupItem>
             <div className='clearfix'>
                 <div className='pull-left'>
-                    <h5>My projects</h5>
+                    <h5>My projects1 222</h5>
                 </div>
             </div>
 

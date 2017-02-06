@@ -27,7 +27,7 @@ const LoginForm = ({ login }) => {
                     password: password.getValue(),
                 })}
               bsStyle='primary'
-            >login</Button>
+            >login2</Button>
         </form>
     );
 };

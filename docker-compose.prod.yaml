@@ -5,11 +5,18 @@ services:
   frontend:
     image: node:6.9.0
     working_dir: /src
-    command: bash -c "npm install && npm run dev"
+    command: bash -c "npm install && npm run deploy"
     volumes:
       - ./frontend:/src
+
+  proxy:
+    build: nginx
+    volumes_from:
+      - frontend
+    links:
+      - frontend
     ports:
-      - "3000:3000"
+     - "3000:80" 
 
   backend:
     image: node:6.9.0
